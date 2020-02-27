@@ -46,7 +46,8 @@
             "name": "Norm",
             "money": 1000,
             "maxInventory": 100,
-            "location": "Canterbury"
+            "location": "Canterbury",
+            "inventory": []
         }
     }
 }
