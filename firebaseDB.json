@@ -1,0 +1,52 @@
+{
+    "countries": [
+        {
+            "name": "England",
+            "locations": [
+                "London",
+                "York",
+                "Manchester",
+                "Leeds",
+                "Wales",
+                "Canterbury"
+            ]
+        }
+    ],
+
+    "items": [
+        {
+            "type": "wheat",
+            "basePrice": 5
+        },
+        {
+            "type": "wood",
+            "basePrice": 10
+        },
+        {
+            "type": "silk",
+            "basePrice": 50
+        },
+        {
+            "type": "spice",
+            "basePrice": 25
+        },
+        {
+            "type": "wine",
+            "basePrice": 40
+        },
+        {
+            "type": "gold",
+            "basePrice": 200
+        }
+
+    ],
+
+    "players": {
+        "firstUser": {
+            "name": "Norm",
+            "money": 1000,
+            "maxInventory": 100,
+            "location": "Canterbury"
+        }
+    }
+}
