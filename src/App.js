@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from './firebase';
 
+// Import Functions
 import getRandomIntInRange, { getRandomIntInRangeExclusive, getRandomFloatInRange } from './functions/randomizers';
 import removeFromArray from './functions/removeFromArray';
+import determineMaxQty from './functions/determineMaxQty';
+
+// Import Components
+import Inventory from './components/Inventory';
+import Transaction from './components/Transaction';
 
 class App extends Component {
   constructor() {
@@ -73,6 +79,8 @@ class App extends Component {
     for (let item of itemsToSet) {
       const priceModifier = getRandomFloatInRange(0.1, 10.1);
       item.price = Math.round(item.basePrice * priceModifier);
+      const qty = getRandomIntInRange(10, 500);
+      item.qty = qty;
     }
 
     const locationToSet = {...this.state.location};
@@ -83,10 +91,105 @@ class App extends Component {
 
   }
 
+  itemClicked = (owner, item) => {
+    // console.log(owner, item);
+    if (item.qty > 0) {
+      if (owner === this.state.player) {
+        this.setState({
+          buying: false,
+          selling: true,
+          selectedItem: item,
+        });
+      } else {
+        const maxQty = determineMaxQty(item, this.state.player);
+        this.setState({
+          buying: true,
+          selling: false,
+          selectedItem: item,
+          maxQty: maxQty,
+        })
+      }
+    }
+  }
+
+  processTransaction = (qty) => {
+    const selectedItem = this.state.selectedItem;
+
+    const player = {...this.state.player};
+    const location = {...this.state.location};
+
+    let playerItemFound = false;
+
+    player.inventory.forEach((item) => {
+      if (item.type === selectedItem.type) {
+        if (this.state.buying) {
+          item.qty += qty;
+        } else {
+          item.qty -= qty;
+          if (item.qty <= 0) {
+            removeFromArray(item, player.inventory);
+          }
+        }
+        playerItemFound = true;
+      }
+    });
+
+    if (!playerItemFound && this.state.buying) {
+      player.inventory.push({
+        type: selectedItem.type,
+        qty: qty,
+        price: selectedItem.price,
+      });
+    }
+
+    location.inventory.forEach((item) => {
+      console.log(item.type, this.state.selectedItem.type);
+      if (item.type === this.state.selectedItem.type) {
+        if (this.state.buying) {
+          item.qty -= qty;
+          player.money -= (item.price * qty);
+        } else {
+          item.qty += qty;
+          player.money += (item.price * qty);
+        }
+      }
+    });
+
+    this.setState({
+      player: player,
+      location: location,
+      buying: false,
+      selling: false,
+      selectedItem: null,
+      selectedQty: 0,
+      maxQty: 0,
+    });
+
+  }
+
+  cancelTransaction = () => {
+    this.setState({
+      buying: false,
+      selling: false,
+      selectedItem: null,
+      selectedQty: 0,
+      maxQty: 0,
+    });
+  }
+
   render() {
     return (
       <div className="App">
-
+        <main>
+          { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
+          { this.state.location.inventory ? <Inventory owner={this.state.location} clickFunction={this.itemClicked}/> : null}
+        </main>
+        <footer>
+          <h2>${this.state.player.money}</h2>
+          { this.state.buying ? <Transaction type={'Buy'} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
+          { this.state.selling ? <Transaction type={'Sell'} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
+          { this.state.buying || this.state.selling ? <button onClick={this.cancelTransaction}>Cancel</button> : null}
+        </footer>
       </div>
     );
   }

@@ -16,26 +16,32 @@
     "items": [
         {
             "type": "wheat",
+            "qty": 0,
             "basePrice": 5
         },
         {
             "type": "wood",
+            "qty": 0,
             "basePrice": 10
         },
         {
             "type": "silk",
+            "qty": 0,
             "basePrice": 50
         },
         {
             "type": "spice",
+            "qty": 0,
             "basePrice": 25
         },
         {
             "type": "wine",
+            "qty": 0,
             "basePrice": 40
         },
         {
             "type": "gold",
+            "qty": 0,
             "basePrice": 200
         }
 
