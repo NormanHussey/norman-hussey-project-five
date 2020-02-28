@@ -8,11 +8,16 @@ class Inventory extends Component {
         return(
             <div className = "inventory">
             <h1>{owner.name}</h1>
+            { owner.maxInventory ? <h2>{owner.inventorySize} / {owner.maxInventory}</h2> : null}
             {
               owner.inventory.map((item, index) => {
-                return(
-                  <InventoryItem item={item} key={index} clickFunction={(item) => { this.props.clickFunction(owner, item) }}/>
-                );
+                if (item.type !== "empty") {
+                  return(
+                    <InventoryItem item={item} key={index} clickFunction={(item) => { this.props.clickFunction(owner, item) }}/>
+                  );
+                } else {
+                  return false;
+                }
               })
             }
           </div>

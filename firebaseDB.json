@@ -52,8 +52,11 @@
             "name": "Norm",
             "money": 1000,
             "maxInventory": 100,
+            "inventorySize": 0,
             "location": "Canterbury",
-            "inventory": []
+            "inventory": [{
+                "type": "empty"
+            }]
         }
     }
 }

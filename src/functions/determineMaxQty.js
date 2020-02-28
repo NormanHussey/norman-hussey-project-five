@@ -1,5 +1,5 @@
-export default function determineMaxQty({ price }, { money, maxInventory, inventory}) {
+export default function determineMaxQty({ price }, { money, maxInventory, inventorySize}) {
     const maxAffordable = Math.floor(money / price);
-    const maxAvailableSpace = maxInventory - inventory.length;
+    const maxAvailableSpace = maxInventory - inventorySize;
     return Math.min(maxAffordable, maxAvailableSpace);
 };

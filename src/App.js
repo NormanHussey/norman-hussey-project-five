@@ -10,11 +10,13 @@ import determineMaxQty from './functions/determineMaxQty';
 // Import Components
 import Inventory from './components/Inventory';
 import Transaction from './components/Transaction';
+import { isCompositeComponent } from 'react-dom/test-utils';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      userName: "firstUser",
       player: {},
       location: {},
       items: [],
@@ -29,8 +31,8 @@ class App extends Component {
   componentDidMount() {
     const playerDbRef = firebase.database().ref('players');
     playerDbRef.on('value', (response) => {
-      const player = response.val().firstUser;
-      player.inventory = [];
+      const player = response.val()[this.state.userName];
+      // player.inventory = [];
       this.setState({
         player: player
       });
@@ -60,6 +62,14 @@ class App extends Component {
       this.randomizeLocationInventory();
     });
 
+  }
+  
+  componentDidUpdate() {
+    // console.log('did update', this.state.player);
+    // const playerDbRef = firebase.database().ref('players');
+    // playerDbRef.update({
+    //   [this.state.userName]: this.state.player
+    // });
   }
 
   randomizeLocationInventory = () => {
@@ -92,7 +102,6 @@ class App extends Component {
   }
 
   itemClicked = (owner, item) => {
-    // console.log(owner, item);
     if (item.qty > 0) {
       if (owner === this.state.player) {
         this.setState({
@@ -119,13 +128,14 @@ class App extends Component {
     const location = {...this.state.location};
 
     let playerItemFound = false;
-
     player.inventory.forEach((item) => {
       if (item.type === selectedItem.type) {
         if (this.state.buying) {
           item.qty += qty;
+          player.inventorySize += qty;
         } else {
           item.qty -= qty;
+          player.inventorySize -= qty;
           if (item.qty <= 0) {
             removeFromArray(item, player.inventory);
           }
@@ -140,10 +150,10 @@ class App extends Component {
         qty: qty,
         price: selectedItem.price,
       });
+      player.inventorySize += qty;
     }
 
     location.inventory.forEach((item) => {
-      console.log(item.type, this.state.selectedItem.type);
       if (item.type === this.state.selectedItem.type) {
         if (this.state.buying) {
           item.qty -= qty;
@@ -163,7 +173,9 @@ class App extends Component {
       selectedItem: null,
       selectedQty: 0,
       maxQty: 0,
-    });
+    },
+      this.updateFirebase
+    );
 
   }
 
@@ -174,6 +186,13 @@ class App extends Component {
       selectedItem: null,
       selectedQty: 0,
       maxQty: 0,
+    });
+  }
+
+  updateFirebase = () => {
+    const playerDbRef = firebase.database().ref('players');
+    playerDbRef.update({
+      [this.state.userName]: this.state.player
     });
   }
 
