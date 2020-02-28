@@ -104,7 +104,7 @@ class App extends Component {
   }
 
   itemClicked = (owner, item) => {
-    if (item.qty > 0) {
+    if (item.qty > 0 && !this.state.traveling) {
       if (owner === this.state.player) {
         this.setState({
           buying: false,
@@ -199,8 +199,11 @@ class App extends Component {
   }
 
   toggleTravelSelection = () => {
+    if (this.state.buying || this.state.selling) {
+      this.cancelTransaction();
+    }
     this.setState({
-      traveling: !this.state.traveling
+      traveling: !this.state.traveling,
     });
   }
 
@@ -232,9 +235,8 @@ class App extends Component {
         </main>
         <footer>
           <h2>${this.state.player.money}</h2>
-          { this.state.buying ? <Transaction type={'Buy'} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
-          { this.state.selling ? <Transaction type={'Sell'} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
-          { this.state.buying || this.state.selling ? <button onClick={this.cancelTransaction}>Cancel</button> : null}
+          { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
+          { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
           { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
         </footer>
       </div>

@@ -13,52 +13,52 @@
 
     "items": [
         {
-            "type": "wheat",
+            "type": "Wheat",
             "qty": 0,
             "basePrice": 5
         },
         {
-            "type": "wood",
+            "type": "Wood",
             "qty": 0,
             "basePrice": 10
         },
         {
-            "type": "silk",
+            "type": "Silk",
             "qty": 0,
             "basePrice": 50
         },
         {
-            "type": "spice",
+            "type": "Spice",
             "qty": 0,
             "basePrice": 25
         },
         {
-            "type": "wine",
+            "type": "Wine",
             "qty": 0,
             "basePrice": 40
         },
         {
-            "type": "gold",
+            "type": "Gold",
             "qty": 0,
             "basePrice": 200
         },
         {
-            "type": "iron",
+            "type": "Iron",
             "qty": 0,
             "basePrice": 50
         },
         {
-            "type": "silver",
+            "type": "Silver",
             "qty": 0,
             "basePrice": 100
         },
         {
-            "type": "cotton",
+            "type": "Cotton",
             "qty": 0,
             "basePrice": 10
         },
         {
-            "type": "salt",
+            "type": "Salt",
             "qty": 0,
             "basePrice": 5
         }
