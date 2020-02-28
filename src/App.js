@@ -204,14 +204,9 @@ class App extends Component {
     });
   }
 
-  processTravelCost = (startingIndex, destinationIndex) => {
-    const distance = Math.abs(destinationIndex - startingIndex);
-    return distance * 25;
-  }
-
-  travel = (newLocation, startingIndex, destinationIndex) => {
+  travel = (newLocation, travelDistance) => {
     this.cancelTransaction();
-    const travelCost = this.processTravelCost(startingIndex, destinationIndex);
+    const travelCost = travelDistance * 25;
     const player = {...this.state.player};
     player.location = newLocation.name;
     player.money -= travelCost;

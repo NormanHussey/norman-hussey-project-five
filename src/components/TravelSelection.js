@@ -15,10 +15,11 @@ class TravelSelection extends Component {
                                 name: location,
                                 inventory: []
                             };
+                            const travelDistance = Math.abs(index - startingIndex);
                             return(
                                 <button key={index} onClick={
-                                    () => { this.props.travel(newLocation, startingIndex, index) }
-                                }>{location}</button>
+                                    () => { this.props.travel(newLocation, travelDistance) }
+                                }>{location} ({travelDistance} days)</button>
                             );
                         } else {
                             return (
