@@ -68,8 +68,9 @@ class App extends Component {
     itemsDbRef.on('value', (response) => {
       this.setState({
         items: response.val()
-      });
-      this.randomizeLocationInventory();
+      },
+      this.randomizeLocationInventory
+      );
     });
 
   }
@@ -212,6 +213,18 @@ class App extends Component {
     });
   }
 
+  travel = (newLocation) => {
+    const player = {...this.state.player};
+    player.location = newLocation.name;
+    this.setState({
+      location: newLocation,
+      traveling: false,
+      player: player,
+    },
+      this.randomizeLocationInventory
+    );
+  }
+
   render() {
     return (
       <div className="App">
@@ -225,7 +238,7 @@ class App extends Component {
           { this.state.buying ? <Transaction type={'Buy'} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
           { this.state.selling ? <Transaction type={'Sell'} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
           { this.state.buying || this.state.selling ? <button onClick={this.cancelTransaction}>Cancel</button> : null}
-          { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+          { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
         </footer>
       </div>
     );

@@ -4,17 +4,24 @@ class TravelSelection extends Component {
     render() {
         const locations = this.props.locations;
         const currentLocation = this.props.currentLocation;
+        console.log(currentLocation);
         return(
             <div className="travelScreen">
                 {
-                    locations.map((location) => {
+                    locations.map((location, index) => {
                         if (location !== currentLocation) {
+                            const newLocation = {
+                                name: location,
+                                inventory: []
+                            };
                             return(
-                                <button>{location}</button>
+                                <button key={index} onClick={
+                                    () => { this.props.travel(newLocation) }
+                                }>{location}</button>
                             );
                         } else {
                             return (
-                            <button disabled>{location}</button>
+                            <button key={index} disabled>{location}</button>
                             );
                         }
                     })
