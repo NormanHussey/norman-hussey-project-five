@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 class TravelSelection extends Component {
+
     render() {
         const locations = this.props.locations;
         const currentLocation = this.props.currentLocation;
+        const startingIndex = locations.indexOf(currentLocation);
         return(
             <div className="travelScreen">
                 {
@@ -15,7 +17,7 @@ class TravelSelection extends Component {
                             };
                             return(
                                 <button key={index} onClick={
-                                    () => { this.props.travel(newLocation) }
+                                    () => { this.props.travel(newLocation, startingIndex, index) }
                                 }>{location}</button>
                             );
                         } else {

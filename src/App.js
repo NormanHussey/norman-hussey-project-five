@@ -45,9 +45,8 @@ class App extends Component {
 
       const countries = response.val();
       const country = this.state.player.country;
-      // const countryName = Object.keys(countries)[0];
       const locations = countries[country];
-      // const villages = country.locations;
+
       locations.forEach((location) => {
         if (location === this.state.player.location) {
           this.setState({
@@ -73,14 +72,6 @@ class App extends Component {
       );
     });
 
-  }
-  
-  componentDidUpdate() {
-    // console.log('did update', this.state.player);
-    // const playerDbRef = firebase.database().ref('players');
-    // playerDbRef.update({
-    //   [this.state.userName]: this.state.player
-    // });
   }
 
   randomizeLocationInventory = () => {
@@ -213,15 +204,26 @@ class App extends Component {
     });
   }
 
-  travel = (newLocation) => {
+  processTravelCost = (startingIndex, destinationIndex) => {
+    const distance = Math.abs(destinationIndex - startingIndex);
+    return distance * 25;
+  }
+
+  travel = (newLocation, startingIndex, destinationIndex) => {
+    this.cancelTransaction();
+    const travelCost = this.processTravelCost(startingIndex, destinationIndex);
     const player = {...this.state.player};
     player.location = newLocation.name;
+    player.money -= travelCost;
     this.setState({
       location: newLocation,
       traveling: false,
-      player: player,
+      player: player
     },
-      this.randomizeLocationInventory
+      () => {
+        this.randomizeLocationInventory();
+        this.updateFirebase();
+      }
     );
   }
 
