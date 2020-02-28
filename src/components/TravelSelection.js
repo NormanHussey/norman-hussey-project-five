@@ -4,7 +4,6 @@ class TravelSelection extends Component {
     render() {
         const locations = this.props.locations;
         const currentLocation = this.props.currentLocation;
-        console.log(currentLocation);
         return(
             <div className="travelScreen">
                 {

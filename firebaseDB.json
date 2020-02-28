@@ -40,6 +40,26 @@
             "type": "gold",
             "qty": 0,
             "basePrice": 200
+        },
+        {
+            "type": "iron",
+            "qty": 0,
+            "basePrice": 50
+        },
+        {
+            "type": "silver",
+            "qty": 0,
+            "basePrice": 100
+        },
+        {
+            "type": "cotton",
+            "qty": 0,
+            "basePrice": 10
+        },
+        {
+            "type": "salt",
+            "qty": 0,
+            "basePrice": 5
         }
 
     ],
