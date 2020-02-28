@@ -10,7 +10,7 @@ import determineMaxQty from './functions/determineMaxQty';
 // Import Components
 import Inventory from './components/Inventory';
 import Transaction from './components/Transaction';
-import { isCompositeComponent } from 'react-dom/test-utils';
+import TravelSelection from './components/TravelSelection';
 
 class App extends Component {
   constructor() {
@@ -19,12 +19,14 @@ class App extends Component {
       userName: "firstUser",
       player: {},
       location: {},
+      country: {},
       items: [],
       buying: false,
       selling: false,
       selectedItem: null,
       selectedQty: 0,
       maxQty: 0,
+      traveling: false,
     }
   }
 
@@ -40,13 +42,21 @@ class App extends Component {
 
     const locationsDbRef = firebase.database().ref('countries');
     locationsDbRef.on('value', (response) => {
-      const country = response.val()[0];
-      const villages = country.locations;
-      villages.forEach((village) => {
-        if (village === this.state.player.location) {
+
+      const countries = response.val();
+      const country = this.state.player.country;
+      // const countryName = Object.keys(countries)[0];
+      const locations = countries[country];
+      // const villages = country.locations;
+      locations.forEach((location) => {
+        if (location === this.state.player.location) {
           this.setState({
+            country: {
+              name: country,
+              locations: locations
+            },
             location: {
-              name: village,
+              name: location,
               inventory: []
             }
           });
@@ -196,9 +206,16 @@ class App extends Component {
     });
   }
 
+  toggleTravelSelection = () => {
+    this.setState({
+      traveling: !this.state.traveling
+    });
+  }
+
   render() {
     return (
       <div className="App">
+        <header><h1>{this.state.country.name}</h1></header>
         <main>
           { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
           { this.state.location.inventory ? <Inventory owner={this.state.location} clickFunction={this.itemClicked}/> : null}
@@ -208,6 +225,7 @@ class App extends Component {
           { this.state.buying ? <Transaction type={'Buy'} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
           { this.state.selling ? <Transaction type={'Sell'} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
           { this.state.buying || this.state.selling ? <button onClick={this.cancelTransaction}>Cancel</button> : null}
+          { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
         </footer>
       </div>
     );

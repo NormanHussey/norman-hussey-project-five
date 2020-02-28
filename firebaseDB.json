@@ -1,17 +1,14 @@
 {
-    "countries": [
-        {
-            "name": "England",
-            "locations": [
-                "London",
-                "York",
-                "Manchester",
-                "Leeds",
-                "Wales",
-                "Canterbury"
-            ]
-        }
-    ],
+    "countries": {
+        "England": [
+            "London",
+            "York",
+            "Manchester",
+            "Leeds",
+            "Wales",
+            "Canterbury"
+        ]
+    },
 
     "items": [
         {
@@ -53,6 +50,7 @@
             "money": 1000,
             "maxInventory": 100,
             "inventorySize": 0,
+            "country": "England",
             "location": "Canterbury",
             "inventory": [{
                 "type": "empty"
