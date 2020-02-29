@@ -21,7 +21,7 @@ class Transaction extends Component {
   
     render() {
       return(
-        <div className="transactionScreen">
+        <div className="popup transactionScreen">
           <h2>{this.props.item.type}</h2>
           <h3>Price: ${this.props.item.price}</h3>
           <form onSubmit={ this.handleFormSubmit }>

@@ -7,7 +7,7 @@ class TravelSelection extends Component {
         const currentLocation = this.props.currentLocation;
         const startingIndex = locations.indexOf(currentLocation);
         return(
-            <div className="travelScreen">
+            <div className="popup travelScreen">
                 {
                     locations.map((location, index) => {
                         if (location !== currentLocation) {

@@ -7,8 +7,8 @@ class Inventory extends Component {
         const owner = this.props.owner;
         return(
             <div className = "inventory">
-            <h1>{owner.name}</h1>
-            { owner.maxInventory ? <h2>{owner.inventorySize} / {owner.maxInventory}</h2> : null}
+            <h3>{owner.name}</h3>
+            { owner.maxInventory ? <h4>{owner.inventorySize} / {owner.maxInventory}</h4> : null}
             {
               owner.inventory.map((item, index) => {
                 if (item.type !== "empty") {

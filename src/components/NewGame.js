@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ChooseCountry from './ChooseCountry';
+
 class NewGame extends Component {
     constructor() {
         super();
@@ -34,12 +36,6 @@ class NewGame extends Component {
         });
     }
 
-    choosingCountry = (e) => {
-        this.setState({
-            countryChoice: e.target.value
-        });
-    }
-
     createNewAccount = (e) => {
         e.preventDefault();
         if (this.state.uniqueUserName) {
@@ -59,13 +55,12 @@ class NewGame extends Component {
         });
     }
 
-    beginGame = (e) => {
-        e.preventDefault();
+    beginGame = (countryChoice) => {
         this.props.startNewGame({
             userName: this.state.userName,
             password: this.state.password,
             guest: this.state.guest,
-            countryChoice: this.state.countryChoice
+            countryChoice: countryChoice
         });
     }
 
@@ -91,20 +86,7 @@ class NewGame extends Component {
                         <button onClick={ this.playAsGuest } type="submit">Play as Guest</button>
                     </div>
                     :
-                    <form onSubmit={ this.beginGame } action="submit" className="countryChoiceForm">
-                        <label htmlFor="countryChoice">Choose a starting country:</label>
-                        <select onChange={ this.choosingCountry } id="countryChoice">
-                            {
-                                this.props.countries.map((country, index)=> {
-                                    const key = `countryChoice${index}`;
-                                    return(
-                                        <option key={key} value={country}>{country}</option>
-                                    );
-                                })
-                            }
-                        </select>
-                        <button type="submit">Begin</button>
-                    </form>
+                    <ChooseCountry beginGame={ this.beginGame } countries={ this.props.countries } />
                 }
             </div>
         );

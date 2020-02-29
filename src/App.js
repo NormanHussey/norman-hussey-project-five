@@ -12,6 +12,7 @@ import StartScreen from './components/StartScreen';
 import Inventory from './components/Inventory';
 import Transaction from './components/Transaction';
 import TravelSelection from './components/TravelSelection';
+import ChooseCountry from './components/ChooseCountry';
 
 class App extends Component {
   constructor() {
@@ -20,7 +21,7 @@ class App extends Component {
       gameStarted: false,
       allPlayers: [],
       countries: [],
-      userName: "firstUser",
+      userName: "",
       player: {},
       location: {},
       country: {},
@@ -31,6 +32,9 @@ class App extends Component {
       selectedQty: 0,
       maxQty: 0,
       traveling: false,
+      startNewGame: false,
+      quitGame: false,
+      chooseNewCountry: false
     }
   }
 
@@ -268,6 +272,59 @@ class App extends Component {
     );
   }
 
+  confirmNewGame = () => {
+    this.setState({
+      startNewGame: !this.state.startNewGame
+    });
+  }
+
+  chooseNewCountry = () => {
+    this.setState({
+      chooseNewCountry: true,
+      startNewGame: false,
+      quitGame: false
+    });
+  }
+
+  startingNewGame = (countryChoice) => {
+    let guest = false;
+    if (this.state.player.name === "Nameless Merchant") {
+      guest = true;
+    }
+    const newGameValues = {
+      userName: this.state.userName,
+      password: this.state.player.password,
+      guest: guest,
+      countryChoice: countryChoice
+    };
+    this.setState({
+      chooseNewCountry: false
+    },
+      () => { this.setupNewGame(newGameValues); }
+    );
+  }
+
+  confirmQuit = () => {
+    this.setState({
+      quitGame: !this.state.quitGame
+    });
+  }
+
+  quitting = () => {
+    this.setState({
+      gameStarted: false,
+      buying: false,
+      selling: false,
+      selectedItem: null,
+      selectedQty: 0,
+      maxQty: 0,
+      traveling: false,
+      startNewGame: false,
+      quitGame: false,
+      chooseNewCountry: false
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -277,9 +334,36 @@ class App extends Component {
             <h1>Merchant's Road</h1>
             <h2>{this.state.country.name}</h2>
             <div className="headerButtons">
-              <button>New Game</button>
-              <button>Sign Out</button>
+              <button onClick={ this.confirmNewGame }>New Game</button>
+              <button onClick={ this.confirmQuit }>Quit Game</button>
             </div>
+            { this.state.startNewGame ? 
+              <div className="popup">
+                <h3>Are you sure you want to start a new game?</h3>
+                <p>(All of your current progress will be lost)</p>
+                <div className="booleanChoices">
+                  <button onClick={ this.chooseNewCountry }>Yes</button>
+                  <button onClick={ this.confirmNewGame }>No</button>
+                </div>
+              </div>
+              : null
+            }
+            { this.state.quitGame ? 
+              <div className="popup">
+                <h3>Are you sure you want to quit?</h3>
+                { this.state.player.name === "Nameless Merchant" ? <p>(All of your current progress will be lost)</p> : <p>(Your game is saved)</p>}
+                <div className="booleanChoices">
+                  <button onClick={ this.quitting }>Yes</button>
+                  <button onClick={ this.confirmQuit }>No</button>
+                </div>
+              </div>
+              : null
+            }
+            { this.state.chooseNewCountry ? 
+              <div className="popup">
+                <ChooseCountry beginGame={ this.startingNewGame } countries={Object.keys(this.state.countries)} />
+              </div>
+              : null }
           </div>
         </header>
         <main>
