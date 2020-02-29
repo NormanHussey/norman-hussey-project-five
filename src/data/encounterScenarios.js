@@ -21,6 +21,31 @@ const encounterScenarios = [
             }
         ]
     },
+    {
+        type: 'looting',
+        text: 'You find an overturned caravan in a ditch beside the road. The owner appears to be dead.',
+        options: [
+            'Loot the caravan',
+            'Loot the owner',
+            'Try to help the owner',
+            'Just keep riding'
+        ],
+        outcomes: [
+            {
+                positive: 'You successfully fought him off!',
+                negative: 'He beat you senseless and helped himself to your property.' 
+            },
+            {
+                positive: 'You successfully fled from the robber!',
+                negative: 'He caught you trying to escape and took what he wanted from you.'
+            },
+            {
+                positive: 'You successfully fled from the robber!',
+                negative: 'He caught you trying to escape and took what he wanted from you.'
+            },
+            'You continue on your way.'
+        ]
+    },
     // {
     //     type: 'looting',
     //     text: 'You find an overturned caravan in a ditch beside the road. The owner appears to be dead.',

@@ -298,7 +298,7 @@ class App extends Component {
     return encounters;
   }
 
-  encounterResult = () => {
+  encounterResult = (player = {...this.state.player}) => {
     const encountersLeft = this.state.encountersOccurring - 1;
 
     if (encountersLeft < 0) {
@@ -306,6 +306,7 @@ class App extends Component {
     }
 
     this.setState({
+      player: player,
       encountersOccurring: encountersLeft
     },
       this.updateFirebase

@@ -28,8 +28,20 @@ class Encounter extends Component {
     }
 
     processPlayerChoice = (choice) => {
-        console.log(this.state.currentEncounter.outcomes[choice]);
-        this.props.encounterResult();
+        const scenario = this.state.currentEncounter;
+        const player = this.props.player;
+        console.log(scenario.outcomes[choice]);
+        if (scenario.type === 'robbery') {
+            switch (choice) {
+                case 0:
+                    // Give him money
+                    const percentToSteal = getRandomIntInRange(1, 25);
+                    const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                    player.money -= moneyStolen;
+                    break;
+            }
+        }
+        this.props.encounterResult(player);
     }
 
     render() {
