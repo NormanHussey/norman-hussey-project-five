@@ -99,10 +99,11 @@
             "name": "Norm",
             "password": "norm",
             "money": 1000,
+            "day": 1,
             "maxInventory": 100,
             "inventorySize": 0,
             "country": "England",
-            "location": "Canterbury",
+            "location": "York",
             "inventory": [{
                 "type": "empty"
             }]

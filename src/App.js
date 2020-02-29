@@ -3,7 +3,7 @@ import './App.css';
 import firebase from './firebase';
 
 // Import Functions
-import getRandomIntInRange, { getRandomIntInRangeExclusive, getRandomFloatInRange } from './functions/randomizers';
+import getRandomIntInRange, { getRandomIntInRangeExclusive, getRandomFloatInRange, probability } from './functions/randomizers';
 import removeFromArray from './functions/removeFromArray';
 import determineMaxQty from './functions/determineMaxQty';
 
@@ -13,6 +13,7 @@ import Inventory from './components/Inventory';
 import Transaction from './components/Transaction';
 import TravelSelection from './components/TravelSelection';
 import ChooseCountry from './components/ChooseCountry';
+import Encounter from './components/Encounter';
 
 class App extends Component {
   constructor() {
@@ -34,7 +35,8 @@ class App extends Component {
       traveling: false,
       startNewGame: false,
       quitGame: false,
-      chooseNewCountry: false
+      chooseNewCountry: false,
+      encountersOccurring: 0
     }
   }
 
@@ -59,6 +61,7 @@ class App extends Component {
     const playersDbRef = firebase.database().ref('players');
     const startingValues = {
       money: 1000,
+      day: 1,
       maxInventory: 100,
       inventorySize: 0,
       country: countryChoice,
@@ -259,6 +262,8 @@ class App extends Component {
     this.cancelTransaction();
     const player = {...this.state.player};
     player.money -= travelCost;
+    const daysPassed = (travelCost / 25);
+    player.day += daysPassed;
     const countryToTravel = {...this.state.country};
 
     if (newCountry) {
@@ -270,11 +275,38 @@ class App extends Component {
     player.location = newLocation.name;
     newLocation.inventory = this.randomizeLocationInventory();
 
+    const numberOfRandomEncounters = this.randomEncounters(daysPassed);
+
     this.setState({
       country: countryToTravel,
       location: newLocation,
       traveling: false,
-      player: player
+      player: player,
+      encountersOccurring: numberOfRandomEncounters
+    },
+      this.updateFirebase
+    );
+  }
+
+  randomEncounters = (daysPassed) => {
+    let encounters = 0;
+    for(let i = 0; i < daysPassed; i++) {
+      if (probability(0.25)) {
+        encounters++;
+      }
+    }
+    return encounters;
+  }
+
+  closeEncounter = () => {
+    const encountersLeft = this.state.encountersOccurring - 1;
+
+    if (encountersLeft < 0) {
+      encountersLeft = 0;
+    }
+
+    this.setState({
+      encountersOccurring: encountersLeft
     },
       this.updateFirebase
     );
@@ -341,7 +373,7 @@ class App extends Component {
         { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } loadGame={ this.loadGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
         <header>
           <div className="wrapper gameHeader">
-            <h1>Merchant's Road</h1>
+            <h2>Day: {this.state.player.day}</h2>
             <h2>{this.state.country.name}</h2>
             <div className="headerButtons">
               <button onClick={ this.confirmNewGame }>New Game</button>
@@ -387,6 +419,7 @@ class App extends Component {
             <h2>${this.state.player.money}</h2>
             { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
             { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
+            { this.state.encountersOccurring ? <Encounter encountersLeft={this.state.encountersOccurring} player={this.state.player} close={this.closeEncounter} /> : null }
             { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
           </div>
         </footer>
