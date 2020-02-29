@@ -53,6 +53,19 @@ footer {
   border-color: red;
 }
 
+.startScreen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .travelScreen,
 .transactionScreen {
   width: 50vw;

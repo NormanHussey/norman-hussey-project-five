@@ -8,6 +8,7 @@ import removeFromArray from './functions/removeFromArray';
 import determineMaxQty from './functions/determineMaxQty';
 
 // Import Components
+import StartScreen from './components/StartScreen';
 import Inventory from './components/Inventory';
 import Transaction from './components/Transaction';
 import TravelSelection from './components/TravelSelection';
@@ -16,6 +17,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      gameStarted: false,
       userName: "firstUser",
       player: {},
       location: {},
@@ -31,47 +33,53 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const playerDbRef = firebase.database().ref('players');
-    playerDbRef.on('value', (response) => {
-      const player = response.val()[this.state.userName];
-      // player.inventory = [];
+    const dbRef = firebase.database().ref();
+    dbRef.on('value', (response) => {
+      // const player = response.val()[this.state.userName];
+      const db = response.val();
+      const allPlayers = db.players;
+      const countries = db.countries;
+      const items = db.items;
+
       this.setState({
-        player: player
-      });
-    });
-
-    const locationsDbRef = firebase.database().ref('countries');
-    locationsDbRef.on('value', (response) => {
-
-      const countries = response.val();
-      const country = this.state.player.country;
-      const locations = countries[country];
-
-      locations.forEach((location) => {
-        if (location === this.state.player.location) {
-          this.setState({
-            country: {
-              name: country,
-              locations: locations
-            },
-            location: {
-              name: location,
-              inventory: []
-            }
-          });
-        }
-      });
-    });
-
-    const itemsDbRef = firebase.database().ref('items');
-    itemsDbRef.on('value', (response) => {
-      this.setState({
-        items: response.val()
+        allPlayers: allPlayers,
+        countries: countries,
+        items: items
       },
-      this.randomizeLocationInventory
+        this.beginGame
       );
     });
 
+  }
+
+  beginGame = () => {
+    const player = this.state.allPlayers[this.state.userName];
+    const countryName = player.country;
+    const locations = this.state.countries[countryName];
+
+    let currentLocation;
+    locations.forEach((location) => {
+      if (location === player.location) {
+        currentLocation = location;
+      }
+    });
+
+    const country = {
+      name: countryName,
+      locations: locations
+    };
+
+    const location = {
+      name: currentLocation,
+      inventory: this.randomizeLocationInventory()
+    };
+
+    this.setState({
+      player: player,
+      country: country,
+      location: location,
+      gameStarted: true
+    });
   }
 
   randomizeLocationInventory = () => {
@@ -80,26 +88,22 @@ class App extends Component {
 
     // Randomly choose the items to be added to the location inventory
     const itemsArrayCopy = [...this.state.items];
-    const itemsToSet = [];
+    const newInventory = [];
     for (let i = 0; i < numberOfItems; i++) {
       const randomIndex = getRandomIntInRangeExclusive(0, itemsArrayCopy.length);
-      itemsToSet.push(itemsArrayCopy[randomIndex]);
+      newInventory.push(itemsArrayCopy[randomIndex]);
       removeFromArray(itemsArrayCopy[randomIndex], itemsArrayCopy);
     }
 
     // Randomly assign prices to each item relative to its base price
-    for (let item of itemsToSet) {
+    for (let item of newInventory) {
       const priceModifier = getRandomFloatInRange(0.1, 10.1);
       item.price = Math.round(item.basePrice * priceModifier);
       const qty = getRandomIntInRange(10, 500);
       item.qty = qty;
     }
 
-    const locationToSet = {...this.state.location};
-    locationToSet.inventory = itemsToSet;
-    this.setState({
-      location: locationToSet
-    });
+    return newInventory;
 
   }
 
@@ -213,21 +217,24 @@ class App extends Component {
     const player = {...this.state.player};
     player.location = newLocation.name;
     player.money -= travelCost;
+    newLocation.inventory = this.randomizeLocationInventory();
+    
     this.setState({
       location: newLocation,
       traveling: false,
       player: player
     },
-      () => {
-        this.randomizeLocationInventory();
-        this.updateFirebase();
-      }
+      this.updateFirebase
     );
   }
 
   render() {
     return (
       <div className="App">
+        {
+          !this.state.gameStarted ?
+          <StartScreen />
+          : null }
         <header><h1>{this.state.country.name}</h1></header>
         <main>
           { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
