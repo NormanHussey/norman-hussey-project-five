@@ -82,7 +82,14 @@ class App extends Component {
     },
       this.beginGame
     );
+  }
 
+  loadGame = (userName) => {
+    this.setState({
+      userName: userName
+    },
+      this.beginGame
+    );
   }
 
   beginGame = () => {
@@ -264,7 +271,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
+        { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } loadGame={ this.loadGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
         <header><h1>{this.state.country.name}</h1></header>
         <main>
           { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }

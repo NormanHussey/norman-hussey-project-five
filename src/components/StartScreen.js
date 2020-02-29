@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import NewGame from './NewGame';
+import LoadGame from './LoadGame';
 
 class StartScreen extends Component {
     constructor() {
@@ -36,6 +37,7 @@ class StartScreen extends Component {
                     : null 
                 }
                 { this.state.newGame ? <NewGame startNewGame={ this.props.startNewGame } allPlayers={Object.keys(this.props.allPlayers)} countries={this.props.countries}/> : null}
+                { this.state.loadGame ? <LoadGame loadGame={ this.props.loadGame } allPlayers={this.props.allPlayers} /> : null}
             </div>
         );
     }
