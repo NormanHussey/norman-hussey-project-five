@@ -1,13 +1,40 @@
 {
     "countries": {
         "England": [
-                "Canterbury",
-                "London",
-                "Cambridge",
-                "Coventry",
-                "Manchester",
-                "York",
-                "Wales"
+            "Canterbury",
+            "London",
+            "Oxford",
+            "Cambridge",
+            "Coventry",
+            "Worcester",
+            "Shrewsbury",
+            "Manchester",
+            "Chester",
+            "York"
+        ],
+        "France": [
+            "Calais",
+            "Paris",
+            "Lyon",
+            "Avignon",
+            "Marseille",
+            "Aigues-Mortes",
+            "Carcassonne",
+            "Toulouse",
+            "Bordeaux",
+            "La Rochelle"
+        ],
+        "Germany": [
+            "Lubeck",
+            "Hamburg",
+            "Berlin",
+            "Meissen",
+            "Nuremberg",
+            "Rothenburg ob der Tauber",
+            "Bad Mergentheim",
+            "Dinkelsbuhl",
+            "Lindau",
+            "Triberg"
         ]
     },
 
@@ -66,7 +93,7 @@
     ],
 
     "players": {
-        "firstUser": {
+        "Norm": {
             "name": "Norm",
             "password": "norm",
             "money": 1000,
