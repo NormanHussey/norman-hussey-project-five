@@ -272,16 +272,29 @@ class App extends Component {
     return (
       <div className="App">
         { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } loadGame={ this.loadGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
-        <header><h1>{this.state.country.name}</h1></header>
+        <header>
+          <div className="wrapper gameHeader">
+            <h1>Merchant's Road</h1>
+            <h2>{this.state.country.name}</h2>
+            <div className="headerButtons">
+              <button>New Game</button>
+              <button>Sign Out</button>
+            </div>
+          </div>
+        </header>
         <main>
-          { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
-          { this.state.location.inventory ? <Inventory owner={this.state.location} clickFunction={this.itemClicked}/> : null}
+          <div className="wrapper gameMain">
+            { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
+            { this.state.location.inventory ? <Inventory owner={this.state.location} clickFunction={this.itemClicked}/> : null}
+          </div>
         </main>
         <footer>
-          <h2>${this.state.player.money}</h2>
-          { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
-          { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
-          { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+          <div className="wrapper gameFooter">
+            <h2>${this.state.player.money}</h2>
+            { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
+            { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
+            { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+          </div>
         </footer>
       </div>
     );
