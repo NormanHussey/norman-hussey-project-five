@@ -255,9 +255,8 @@ class App extends Component {
     });
   }
 
-  travel = (newLocation, travelDistance) => {
+  travel = (newLocation, travelCost) => {
     this.cancelTransaction();
-    const travelCost = travelDistance * 25;
     const player = {...this.state.player};
     player.location = newLocation.name;
     player.money -= travelCost;
@@ -291,12 +290,14 @@ class App extends Component {
     if (this.state.player.name === "Nameless Merchant") {
       guest = true;
     }
+
     const newGameValues = {
       userName: this.state.userName,
       password: this.state.player.password,
       guest: guest,
       countryChoice: countryChoice
     };
+
     this.setState({
       chooseNewCountry: false
     },
@@ -377,7 +378,7 @@ class App extends Component {
             <h2>${this.state.player.money}</h2>
             { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
             { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
-            { this.state.traveling ? <TravelSelection locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+            { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
           </div>
         </footer>
       </div>

@@ -10,20 +10,26 @@ class TravelSelection extends Component {
             <div className="popup travelScreen">
                 {
                     locations.map((location, index) => {
+                        const key = 'travelKey' + index;
                         if (location !== currentLocation) {
                             const newLocation = {
                                 name: location,
                                 inventory: []
                             };
                             const travelDistance = Math.abs(index - startingIndex);
+                            const travelCost = travelDistance * 25;
+                            let disabled = false;
+                            if (travelCost > this.props.playerMoney) {
+                                disabled=true;
+                            }
                             return(
-                                <button key={index} onClick={
-                                    () => { this.props.travel(newLocation, travelDistance) }
-                                }>{location} ({travelDistance} days)</button>
+                                <button key={key} onClick={
+                                    () => { this.props.travel(newLocation, travelCost) }
+                                } disabled={disabled}>{location} ({travelDistance} days)</button>
                             );
                         } else {
                             return (
-                            <button key={index} disabled>{location}</button>
+                            <button key={key} disabled>{location}</button>
                             );
                         }
                     })
