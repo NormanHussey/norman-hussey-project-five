@@ -1,40 +1,42 @@
 {
     "countries": {
         "England": [
-            "Canterbury",
-            "London",
-            "Oxford",
-            "Cambridge",
-            "Coventry",
-            "Worcester",
-            "Shrewsbury",
-            "Manchester",
+            "York",
             "Chester",
-            "York"
+            "Manchester",
+            "Shrewsbury",
+            "Worcester",
+            "Coventry",
+            "Cambridge",
+            "Oxford",
+            "London",
+            "Canterbury"
         ],
         "France": [
             "Calais",
             "Paris",
-            "Lyon",
-            "Avignon",
-            "Marseille",
-            "Aigues-Mortes",
-            "Carcassonne",
-            "Toulouse",
+            "La Rochelle",
             "Bordeaux",
-            "La Rochelle"
+            "Toulouse",
+            "Carcassonne",
+            "Aigues-Mortes",
+            "Marseille",
+            "Avignon",
+            "Lyon",
+            "Dijon",
+            "Colmar"
         ],
         "Germany": [
-            "Lubeck",
-            "Hamburg",
-            "Berlin",
-            "Meissen",
-            "Nuremberg",
-            "Rothenburg ob der Tauber",
-            "Bad Mergentheim",
-            "Dinkelsbuhl",
+            "Triberg",
             "Lindau",
-            "Triberg"
+            "Dinkelsbuhl",
+            "Bad Mergentheim",
+            "Rothenburg ob der Tauber",
+            "Nuremberg",
+            "Meissen",
+            "Berlin",
+            "Lubeck",
+            "Hamburg"
         ]
     },
 

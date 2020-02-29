@@ -255,14 +255,23 @@ class App extends Component {
     });
   }
 
-  travel = (newLocation, travelCost) => {
+  travel = (newLocation, travelCost, newCountry = false) => {
     this.cancelTransaction();
     const player = {...this.state.player};
-    player.location = newLocation.name;
     player.money -= travelCost;
+    const countryToTravel = {...this.state.country};
+
+    if (newCountry) {
+      countryToTravel.name = newCountry;
+      countryToTravel.locations = this.state.countries[newCountry];
+      player.country = newCountry;
+    }
+
+    player.location = newLocation.name;
     newLocation.inventory = this.randomizeLocationInventory();
 
     this.setState({
+      country: countryToTravel,
       location: newLocation,
       traveling: false,
       player: player
@@ -378,7 +387,7 @@ class App extends Component {
             <h2>${this.state.player.money}</h2>
             { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
             { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
-            { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+            { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
           </div>
         </footer>
       </div>

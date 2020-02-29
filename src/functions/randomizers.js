@@ -13,3 +13,7 @@ export function getRandomIntInRangeExclusive(min, max) {
 export function getRandomFloatInRange(min, max) {
     return Math.random() * (max - min) + min;
 }
+
+export function probability(n) {
+    return n > 0 && Math.random() <= n;
+}
