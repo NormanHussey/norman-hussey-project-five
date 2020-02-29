@@ -18,6 +18,8 @@ class App extends Component {
     super();
     this.state = {
       gameStarted: false,
+      allPlayers: [],
+      countries: [],
       userName: "firstUser",
       player: {},
       location: {},
@@ -35,7 +37,6 @@ class App extends Component {
   componentDidMount() {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
-      // const player = response.val()[this.state.userName];
       const db = response.val();
       const allPlayers = db.players;
       const countries = db.countries;
@@ -46,7 +47,7 @@ class App extends Component {
         countries: countries,
         items: items
       },
-        this.beginGame
+        // this.beginGame
       );
     });
 
@@ -218,7 +219,7 @@ class App extends Component {
     player.location = newLocation.name;
     player.money -= travelCost;
     newLocation.inventory = this.randomizeLocationInventory();
-    
+
     this.setState({
       location: newLocation,
       traveling: false,
@@ -231,10 +232,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {
-          !this.state.gameStarted ?
-          <StartScreen />
-          : null }
+        { !this.state.gameStarted ? <StartScreen allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
         <header><h1>{this.state.country.name}</h1></header>
         <main>
           { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
