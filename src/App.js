@@ -46,10 +46,42 @@ class App extends Component {
         allPlayers: allPlayers,
         countries: countries,
         items: items
-      },
-        // this.beginGame
-      );
+      });
     });
+
+  }
+
+  setupNewGame = ({ userName, password, guest, countryChoice }) => {
+    const playersDbRef = firebase.database().ref('players');
+    const startingValues = {
+      money: 1000,
+      maxInventory: 100,
+      inventorySize: 0,
+      country: countryChoice,
+      location: this.state.countries[countryChoice][0],
+      inventory: [{
+          "type": "empty"
+      }]
+    };
+
+    if (guest) {
+      startingValues.name = "Nameless Merchant";
+      startingValues.password = "";
+      const pushedGuest = playersDbRef.push(startingValues);
+      userName = pushedGuest.key;
+    } else {
+      startingValues.name = userName;
+      startingValues.password = password;
+      playersDbRef.update({
+        [userName]: startingValues
+      });
+    }
+
+    this.setState({
+      userName: userName
+    },
+      this.beginGame
+    );
 
   }
 
@@ -232,7 +264,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { !this.state.gameStarted ? <StartScreen allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
+        { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
         <header><h1>{this.state.country.name}</h1></header>
         <main>
           { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }

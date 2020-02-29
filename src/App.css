@@ -81,7 +81,8 @@ footer {
   align-items: center;
 }
 
-.newGameForm {
+.newGameForm,
+.countryChoiceForm {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

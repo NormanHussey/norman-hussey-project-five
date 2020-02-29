@@ -6,8 +6,10 @@ class NewGame extends Component {
         this.state = {
             userName: '',
             password: '',
+            chooseACountry: false,
             countryChoice: '',
-            uniqueUserName: true
+            uniqueUserName: true,
+            guest: false
         };
     }
 
@@ -26,48 +28,84 @@ class NewGame extends Component {
         });
     }
 
+    enteringPassword = (e) => {
+        this.setState({
+            password: e.target.value
+        });
+    }
+
+    choosingCountry = (e) => {
+        this.setState({
+            countryChoice: e.target.value
+        });
+    }
+
+    createNewAccount = (e) => {
+        e.preventDefault();
+        if (this.state.uniqueUserName) {
+            this.setState({
+                guest: false,
+                chooseACountry: true,
+                countryChoice: this.props.countries[0]
+            });
+        }
+    }
+
+    playAsGuest = () => {
+        this.setState({
+            guest: true,
+            chooseACountry: true,
+            countryChoice: this.props.countries[0]
+        });
+    }
+
+    beginGame = (e) => {
+        e.preventDefault();
+        this.props.startNewGame({
+            userName: this.state.userName,
+            password: this.state.password,
+            guest: this.state.guest,
+            countryChoice: this.state.countryChoice
+        });
+    }
+
     render() {
         return(
             <div className="startNewGame">
-                <div>
-                    <h2>Create an account:</h2>
-                    <h3>(An account will allow you to save your game and return to it later)</h3>
-                </div>
-                <form action="submit" className="newGameForm">
-                    <label htmlFor="newUserName">Choose your user name: </label>
-                    <input onChange={this.enteringUserName} type="text" name="newUserName" id="newUserName" minLength="2" />
-                    { !this.state.uniqueUserName ? <p>Username already exists</p> : null }
-                    <label htmlFor="newPassword">Choose a password (at least 4 characters): </label>
-                    <input type="password" name="newPassword" id="newPassword" minLength="4"/>
-                    <label htmlFor="newCountryChoice">Choose a starting country:</label>
-                    <select id="newCountryChoice">
-                        {
-                            this.props.countries.map((country, index)=> {
-                                const key = `newCountry${index}`;
-                                return(
-                                    <option key={key} value={country}>{country}</option>
-                                );
-                            })
-                        }
-                    </select>
-                    <button type="submit">Begin</button>
-                </form>
-                <h2>Or play as a guest:</h2>
-                <form action="submit" className="newGameForm">
-                    <label htmlFor="guestCountryChoice">Choose a starting country:</label>
-                        <select id="guestCountryChoice">
+                { 
+                    !this.state.chooseACountry ? 
+                    <div className="startNewGame">
+                        <div>
+                            <h2>Create an account:</h2>
+                            <h3>(An account will save your game automatically and allow you to return to it later)</h3>
+                        </div>
+                        <form onSubmit={ this.createNewAccount } action="submit" className="newGameForm">
+                            <label htmlFor="newUserName">Choose your user name: </label>
+                            <input onChange={ this.enteringUserName } type="text" name="newUserName" id="newUserName" minLength="2" required />
+                            { !this.state.uniqueUserName ? <p>Username already exists</p> : null }
+                            <label htmlFor="newPassword">Choose a password (at least 4 characters): </label>
+                            <input onChange={ this.enteringPassword } type="password" name="newPassword" id="newPassword" minLength="4" required />
+                            <button type="submit">Create Account</button>
+                        </form>
+                        <h2>Or play as a guest:</h2>
+                        <button onClick={ this.playAsGuest } type="submit">Play as Guest</button>
+                    </div>
+                    :
+                    <form onSubmit={ this.beginGame } action="submit" className="countryChoiceForm">
+                        <label htmlFor="countryChoice">Choose a starting country:</label>
+                        <select onChange={ this.choosingCountry } id="countryChoice">
                             {
                                 this.props.countries.map((country, index)=> {
-                                    const key = `guestCountry${index}`;
+                                    const key = `countryChoice${index}`;
                                     return(
                                         <option key={key} value={country}>{country}</option>
                                     );
                                 })
                             }
                         </select>
-                    <button type="submit">Begin as Guest</button>
-                </form>
-
+                        <button type="submit">Begin</button>
+                    </form>
+                }
             </div>
         );
     }

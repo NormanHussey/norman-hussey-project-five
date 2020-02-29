@@ -68,6 +68,7 @@
     "players": {
         "firstUser": {
             "name": "Norm",
+            "password": "norm",
             "money": 1000,
             "maxInventory": 100,
             "inventorySize": 0,
