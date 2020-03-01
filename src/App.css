@@ -23,9 +23,9 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 }
 
 :root {
-  --colPrimary: #637224;
+  --colPrimary: #6d0d0d;
   --colSecondary: #77360e;
-  --colTertiary: #6e0d25;
+  --colTertiary: #637224;
   --colAccentLight: #ffba00;
   --colAccentDark: #e88f00;
   --colOffWhite: #ffedbc;
@@ -93,6 +93,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  letter-spacing: 0.2vmax;
 }
 
 body::-webkit-scrollbar {
@@ -110,7 +111,7 @@ body::-webkit-scrollbar-thumb {
 
 header {
   height: 10vh;
-  background-color: var(--colTertiary);
+  background-color: var(--colPrimary);
 }
 
 main {
@@ -120,7 +121,7 @@ main {
 
 footer {
   height: 20vh;
-  background-color: var(--colTertiary);
+  background-color: var(--colPrimary);
 }
 
 button {
@@ -135,19 +136,28 @@ button {
 
 button:hover,
 button:focus {
-  color: var(--colTertiary);
+  color: var(--colPrimary);
   background-color: var(--colAccentLight);
+  border-color: var(--colOffWhite);
 }
 
 button:active {
   background-color: var(--colSecondary);
+  border-color: var(--colOffBlack);
+}
+
+button:disabled {
+  color: var(--colOffBlack);
+  background-color: var(--colSecondary);
+  border-color: var(--colSecondary);
 }
 
 input {
   padding: 0.5vmax;
   background-color: var(--colOffWhite);
-  border: 4px ridge var(--colTertiary);
+  border: 4px ridge var(--colPrimary);
   transition: all 0.3s;
+  font-size: 2vmax;
 }
 
 input:focus {
@@ -157,7 +167,7 @@ input:focus {
 select {
   font-family: var(--fontBody);
   background-color: var(--colOffWhite);
-  border: 4px ridge var(--colTertiary);
+  border: 4px ridge var(--colPrimary);
   transition: all 0.3s;
 }
 
@@ -183,7 +193,7 @@ select:focus {
 }
 
 .gameHeader > *:first-child,
-.gameHeader > *:last-child {
+.gameHeader .headerButtons {
   flex-basis: 40%;
 }
 
@@ -221,8 +231,7 @@ select:focus {
 .inventory {
   width: 50%;
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: auto;
 }
 
 .inventory:first-of-type {
@@ -240,7 +249,7 @@ select:focus {
   color: white;
   border: 4px outset var(--colAccentDark);
   margin: 4px 0;
-  background-color: var(--colTertiary);
+  background-color: var(--colPrimary);
   transition: all 0.3s;
 }
 
@@ -274,7 +283,7 @@ select:focus {
 }
 
 .startScreen button {
-  border-color: var(--colTertiary);
+  border-color: var(--colPrimary);
 }
 
 .startScreen .wrapper {
@@ -292,7 +301,6 @@ select:focus {
 .choices button {
   margin: 0 1vmax;
 }
-
 
 .startNewGame,
 .loadGame {
@@ -350,7 +358,8 @@ select:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--colTertiary);
+  background-color: var(--colPrimary);
+  padding: 1vmax;
 }
 
 .booleanChoices {
@@ -362,6 +371,20 @@ select:focus {
   justify-content: space-evenly;
 }
 
+.travelScreen {
+  width: 75vw;
+  left: 12.5%;
+}
+
+.travelDestinations {
+  overflow: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
 .transactionScreen form {
   display: flex;
   flex-direction: column;
@@ -369,8 +392,11 @@ select:focus {
   align-items: center;
 }
 
-.ornateContainer
-{
+.transactionScreen form button {
+  margin: 1vmax 0;
+}
+
+.ornateContainer {
   border: 8px ridge var(--colAccentDark);
   background-color: var(--colSecondary);
   padding: 1vmax;

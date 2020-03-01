@@ -51,39 +51,41 @@ class TravelSelection extends Component {
         
         return(
             <div className="popup travelScreen">
-                <button key={previousCountry + travelCostToPreviousCountry} onClick={
-                    () => { this.props.travel(previousCountryLocation, travelCostToPreviousCountry, previousCountry) }
-                }
-                disabled={travelToPreviousCountryDisabled}>{previousCountry} ({travelTimeToPreviousCountry} days)</button>
-                {
-                    locations.map((location, index) => {
-                        const key = 'travelKey' + index;
-                        if (location !== currentLocation) {
-                            const newLocation = {
-                                name: location,
-                                inventory: []
-                            };
-                            const travelDistance = Math.abs(index - startingIndex);
-                            const travelCost = travelDistance * 25;
-                            let disabled = false;
-                            if (travelCost > this.props.playerMoney) {
-                                disabled=true;
+                <div className="travelDestinations"> 
+                    <button key={previousCountry + travelCostToPreviousCountry} onClick={
+                        () => { this.props.travel(previousCountryLocation, travelCostToPreviousCountry, previousCountry) }
+                    }
+                    disabled={travelToPreviousCountryDisabled}>{previousCountry} ({travelTimeToPreviousCountry} days)</button>
+                    {
+                        locations.map((location, index) => {
+                            const key = 'travelKey' + index;
+                            if (location !== currentLocation) {
+                                const newLocation = {
+                                    name: location,
+                                    inventory: []
+                                };
+                                const travelDistance = Math.abs(index - startingIndex);
+                                const travelCost = travelDistance * 25;
+                                let disabled = false;
+                                if (travelCost > this.props.playerMoney) {
+                                    disabled=true;
+                                }
+                                return(
+                                    <button key={key} onClick={
+                                        () => { this.props.travel(newLocation, travelCost) }
+                                    } disabled={disabled}>{location} ({travelDistance} days)</button>
+                                );
+                            } else {
+                                return (
+                                <button key={key} disabled>{location}</button>
+                                );
                             }
-                            return(
-                                <button key={key} onClick={
-                                    () => { this.props.travel(newLocation, travelCost) }
-                                } disabled={disabled}>{location} ({travelDistance} days)</button>
-                            );
-                        } else {
-                            return (
-                            <button key={key} disabled>{location}</button>
-                            );
-                        }
-                    })
-                }
-                <button key={nextCountry + travelCostToNextCountry} onClick={
-                    () => { this.props.travel(nextCountryLocation, travelCostToNextCountry, nextCountry) }
-                } disabled={travelToNextCountryDisabled}>{nextCountry} ({travelTimeToNextCountry} days)</button>
+                        })
+                    }
+                    <button key={nextCountry + travelCostToNextCountry} onClick={
+                        () => { this.props.travel(nextCountryLocation, travelCostToNextCountry, nextCountry) }
+                    } disabled={travelToNextCountryDisabled}>{nextCountry} ({travelTimeToNextCountry} days)</button>
+                </div>
                 <button onClick={this.props.cancel}>Cancel</button>
             </div>
         );
