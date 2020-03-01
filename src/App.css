@@ -77,9 +77,11 @@ select,
 option {
   font-size: 1.5vmax;
   font-family: var(--fontBody);
+  color: var(--colOffBlack);
 }
 
-p {
+p,
+label {
   color: var(--colOffWhite);
 }
 
@@ -103,7 +105,6 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   background-color: var(--colAccentDark) ;
-  border-radius: 6px;
   border: 3px solid var(--colSecondary);
 }
 
@@ -142,6 +143,28 @@ button:active {
   background-color: var(--colSecondary);
 }
 
+input {
+  padding: 0.5vmax;
+  background-color: var(--colOffWhite);
+  border: 4px ridge var(--colTertiary);
+  transition: all 0.3s;
+}
+
+input:focus {
+  border-color: var(--colAccentDark);
+}
+
+select {
+  font-family: var(--fontBody);
+  background-color: var(--colOffWhite);
+  border: 4px ridge var(--colTertiary);
+  transition: all 0.3s;
+}
+
+select:focus {
+  border-color: var(--colAccentDark);
+}
+
 .wrapper {
   max-width: 1280px;
   width: 80%;
@@ -162,6 +185,10 @@ button:active {
 .gameHeader > *:first-child,
 .gameHeader > *:last-child {
   flex-basis: 40%;
+}
+
+.gameHeader .darkContainer {
+  flex-basis: 20%;
 }
 
 .headerButtons {
@@ -209,7 +236,7 @@ button:active {
 .inventoryItem {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   color: white;
   border: 4px outset var(--colAccentDark);
   margin: 4px 0;
@@ -222,6 +249,10 @@ button:active {
   color: var(--colOffWhite);
   background-color: var(--colOffBlack);
   border-color: var(--colAccentLight);
+}
+
+.inventoryItem > * {
+  flex-basis: calc(100% / 3);
 }
 
 .startScreen {
@@ -265,7 +296,7 @@ button:active {
 
 .startNewGame,
 .loadGame {
-  height: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -278,6 +309,32 @@ button:active {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.newGameForm label,
+.newGameForm button {
+  margin: 1vmax 0;
+}
+
+.newGameForm p {
+  margin: 0;
+  color: var(--colAccentLight);
+}
+
+.countryChoiceForm label{
+  font-size: 2.5vmax;
+}
+
+.countryChoiceForm option,
+.countryChoiceForm select {
+  font-size: 2.75vmax;
+  padding: 0 1vmax;
+  margin: 1vmax 0;
+}
+
+
+.countryChoiceForm button {
+  margin: 1vmax 0;
 }
 
 .popup {
@@ -320,5 +377,23 @@ button:active {
 }
 
 .startScreen .ornateContainer {
-  padding: 5vmax;
+  width: 50vw;
+  height: 50vh;
+  padding: 2.5vmax;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.startNewGame .ornateContainer {
+  width: 60vw;
+  height: 75vh;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.darkContainer {
+  background-color: var(--colOffBlack);
+  border: 4px ridge var(--colAccentDark);
+  padding: 0 0.75vmin;
 }

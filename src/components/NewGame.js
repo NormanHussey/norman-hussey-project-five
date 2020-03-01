@@ -69,21 +69,23 @@ class NewGame extends Component {
             <div className="startNewGame">
                 { 
                     !this.state.chooseACountry ? 
-                    <div className="startNewGame">
+                    <div className="ornateContainer">
                         <div>
-                            <h2>Create an account:</h2>
-                            <h3>(An account will save your game automatically and allow you to return to it later)</h3>
+                            <h3>Create an account:</h3>
+                            <h4>(An account will save your game automatically and allow you to return to it later)</h4>
+                            <form onSubmit={ this.createNewAccount } action="submit" className="newGameForm">
+                                <label htmlFor="newUserName">Choose your user name: </label>
+                                <input onChange={ this.enteringUserName } type="text" name="newUserName" id="newUserName" minLength="2" required />
+                                { !this.state.uniqueUserName ? <p>Username already exists</p> : null }
+                                <label htmlFor="newPassword">Choose a password (at least 4 characters): </label>
+                                <input onChange={ this.enteringPassword } type="password" name="newPassword" id="newPassword" minLength="4" required />
+                                <button type="submit">Create Account</button>
+                            </form>
                         </div>
-                        <form onSubmit={ this.createNewAccount } action="submit" className="newGameForm">
-                            <label htmlFor="newUserName">Choose your user name: </label>
-                            <input onChange={ this.enteringUserName } type="text" name="newUserName" id="newUserName" minLength="2" required />
-                            { !this.state.uniqueUserName ? <p>Username already exists</p> : null }
-                            <label htmlFor="newPassword">Choose a password (at least 4 characters): </label>
-                            <input onChange={ this.enteringPassword } type="password" name="newPassword" id="newPassword" minLength="4" required />
-                            <button type="submit">Create Account</button>
-                        </form>
-                        <h2>Or play as a guest:</h2>
-                        <button onClick={ this.playAsGuest } type="submit">Play as Guest</button>
+                        <div>
+                            <h3>Or play as a guest:</h3>
+                            <button onClick={ this.playAsGuest } type="submit">Play as Guest</button>
+                        </div>
                     </div>
                     :
                     <ChooseCountry beginGame={ this.beginGame } countries={ this.props.countries } />

@@ -27,20 +27,22 @@ class ChooseCountry extends Component {
 
     render() {
         return(
-            <form onSubmit={ this.handleFormSubmit } action="submit" className="countryChoiceForm">
-            <label htmlFor="countryChoice">Choose a starting country:</label>
-            <select onChange={ this.choosingCountry } id="countryChoice">
-                {
-                    this.props.countries.map((country, index)=> {
-                        const key = `countryChoice${index}`;
-                        return(
-                            <option key={key} value={country}>{country}</option>
-                        );
-                    })
-                }
-            </select>
-            <button type="submit">Begin</button>
-        </form>
+            <div className="ornateContainer">
+                <form onSubmit={ this.handleFormSubmit } action="submit" className="countryChoiceForm">
+                    <label htmlFor="countryChoice">Choose a starting country:</label>
+                    <select onChange={ this.choosingCountry } id="countryChoice">
+                        {
+                            this.props.countries.map((country, index)=> {
+                                const key = `countryChoice${index}`;
+                                return(
+                                    <option key={key} value={country}>{country}</option>
+                                );
+                            })
+                        }
+                    </select>
+                    <button type="submit">Begin</button>
+                </form>
+            </div>
         );
     }
 }

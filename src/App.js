@@ -404,7 +404,9 @@ class App extends Component {
           <header>
             <div className="wrapper gameHeader">
               <h2>{this.state.country.name}</h2>
-              <h3>Day: {this.state.player.day}</h3>
+              <div className="darkContainer">
+                <h3>Day: {this.state.player.day}</h3>
+              </div>
               <div className="headerButtons">
                 <button onClick={ this.confirmNewGame }>New Game</button>
                 <button onClick={ this.confirmQuit }>Quit Game</button>
@@ -413,7 +415,7 @@ class App extends Component {
                 <div className="popup">
                   <h3>Are you sure you want to start a new game?</h3>
                   <p>(All of your current progress will be lost)</p>
-                  <div className="booleanChoices">
+                  <div className="choices">
                     <button onClick={ this.chooseNewCountry }>Yes</button>
                     <button onClick={ this.confirmNewGame }>No</button>
                   </div>
@@ -424,7 +426,7 @@ class App extends Component {
                 <div className="popup">
                   <h3>Are you sure you want to quit?</h3>
                   { this.state.player.name === "Nameless Merchant" ? <p>(All of your current progress will be lost)</p> : <p>(Your game is saved)</p>}
-                  <div className="booleanChoices">
+                  <div className="choices">
                     <button onClick={ this.quitting }>Yes</button>
                     <button onClick={ this.confirmQuit }>No</button>
                   </div>
@@ -446,7 +448,9 @@ class App extends Component {
           </main>
           <footer>
             <div className="wrapper gameFooter">
-              <h2>${this.state.player.money}</h2>
+              <div className="darkContainer">
+                <h2>${this.state.player.money}</h2>
+              </div>
               { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
               { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
               { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }

@@ -58,15 +58,17 @@ class LoadGame extends Component {
 
     render() {
         return (
-            <form onSubmit={ this.accountValidation } action="submit" className="loadGame">
-                <label htmlFor="loadUserName">Username:</label>
-                <input onChange={ this.inputUserName } type="text" name="loadUserName" id="loadUserName" />
-                { !this.state.validUserName ? <p>Invalid Username</p> : null }
-                <label htmlFor="loadPassword">Password:</label>
-                <input onChange={ this.inputPassword } type="password" name="loadPassword" id="loadPassword" />
-                { !this.state.validPassword ? <p>Invalid Password</p> : null }
-                <button type="submit">Load Game</button>
-            </form>
+            <div className="ornateContainer">
+                <form onSubmit={ this.accountValidation } action="submit" className="loadGame">
+                    <label htmlFor="loadUserName">Username:</label>
+                    <input onChange={ this.inputUserName } type="text" name="loadUserName" id="loadUserName" />
+                    { !this.state.validUserName ? <p>Invalid Username</p> : null }
+                    <label htmlFor="loadPassword">Password:</label>
+                    <input onChange={ this.inputPassword } type="password" name="loadPassword" id="loadPassword" />
+                    { !this.state.validPassword ? <p>Invalid Password</p> : null }
+                    <button type="submit">Load Game</button>
+                </form>
+            </div>
         );
     }
 }
