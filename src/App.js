@@ -36,7 +36,9 @@ class App extends Component {
       startNewGame: false,
       quitGame: false,
       chooseNewCountry: false,
-      encountersOccurring: 0
+      encountersOccurring: 0,
+      encounterDays: [],
+      daysTraveling: 0
     }
   }
 
@@ -262,8 +264,7 @@ class App extends Component {
     this.cancelTransaction();
     const player = {...this.state.player};
     player.money -= travelCost;
-    const daysPassed = (travelCost / 25);
-    player.day += daysPassed;
+    let daysPassed = (travelCost / 25);
     const countryToTravel = {...this.state.country};
 
     if (newCountry) {
@@ -275,27 +276,39 @@ class App extends Component {
     player.location = newLocation.name;
     newLocation.inventory = this.randomizeLocationInventory();
 
-    const numberOfRandomEncounters = this.randomEncounters(daysPassed);
+    const encounterDays = this.randomEncounters(daysPassed);
+    const numberOfRandomEncounters = encounterDays.length;
+    if (numberOfRandomEncounters === 0) {
+      player.day += daysPassed;
+      daysPassed = 0;
+    } else {
+      player.day += encounterDays[0];
+      daysPassed -= encounterDays[0];
+    }
 
     this.setState({
       country: countryToTravel,
       location: newLocation,
       traveling: false,
       player: player,
-      encountersOccurring: numberOfRandomEncounters
+      encountersOccurring: numberOfRandomEncounters,
+      encounterDays: encounterDays,
+      daysTraveling: daysPassed
     },
       this.updateFirebase
     );
   }
 
   randomEncounters = (daysPassed) => {
-    let encounters = 0;
+    const encounterDays = [];
+    let lastDay = 0;
     for(let i = 0; i < daysPassed; i++) {
       if (probability(0.25)) {
-        encounters++;
+        encounterDays.push(i + 1 - lastDay);
+        lastDay = i + 1;
       }
     }
-    return encounters;
+    return encounterDays;
   }
 
   encounterResult = (player = {...this.state.player}) => {
@@ -307,8 +320,23 @@ class App extends Component {
   }
 
   adjustNumberOfEncounters = (numberOfEncounters) => {
+    const newEncounterDays = [...this.state.encounterDays];
+    const player = {...this.state.player};
+    let daysTraveling = this.state.daysTraveling;
+    newEncounterDays.shift();
+    if (newEncounterDays.length > 0) {
+      player.day += newEncounterDays[0];
+      daysTraveling -= newEncounterDays[0];
+    } else {
+      player.day += daysTraveling;
+      daysTraveling = 0;
+    }
+
     this.setState({
-      encountersOccurring: numberOfEncounters
+      player: player,
+      encountersOccurring: numberOfEncounters,
+      encounterDays: newEncounterDays,
+      daysTraveling: daysTraveling
     });
   }
 
