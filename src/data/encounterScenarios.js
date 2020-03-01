@@ -40,7 +40,7 @@ const encounterScenarios = [
                 negative: 'His pockets are empty. It seems another person of low moral fibre beat you to it.'
             },
             {
-                positive: "He regains consciousness! He wasn't dead after all and is now very grateful! He gives you a big reward.",
+                positive: "He regains consciousness! He wasn't dead after all and is now very grateful! He gives you a big reward!",
                 negative: "He opens his eyes and swiftly brings a knife to your throat! You fell for his trap so he robs you."
             },
             'You continue on your way.'

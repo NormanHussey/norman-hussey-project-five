@@ -138,7 +138,7 @@ class Encounter extends Component {
             switch(choice) {
                 case 0:
                     // Loot the caravan
-                    if (probability(0.5)) {
+                    if (probability(0.34)) {
                         if (player.inventorySize >= player.maxInventory) {
                             outcome.text = `
                                 ${outcome.text.positive}
@@ -173,12 +173,36 @@ class Encounter extends Component {
 
                 case 1:
                     // Loot the owner
-
+                    if (probability(0.34)) {
+                        const moneyLooted = getRandomIntInRange(1, 500);
+                        player.money += moneyLooted;
+                        outcome.text = `
+                            ${outcome.text.positive}
+                            You found $${moneyLooted}.
+                        `;
+                    } else {
+                        outcome.text = outcome.text.negative;
+                    }
                     break;
 
                 case 2:
                     // Try to help the owner
-
+                    if (probability(0.49)) {
+                        const rewardMoney = getRandomIntInRange(200, 2000);
+                        player.money += rewardMoney;
+                        outcome.text = `
+                            ${outcome.text.positive}
+                            You get $${rewardMoney}.
+                        `;
+                    } else {
+                        const percentToSteal = getRandomIntInRange(1, 75);
+                        const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                        player.money -= moneyStolen;
+                        outcome.text = `
+                            ${outcome.text.negative}
+                            You lost $${moneyStolen}.
+                        `;
+                    }
                     break;
 
             }
