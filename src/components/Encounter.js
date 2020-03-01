@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import encounterScenarios from '../data/encounterScenarios';
-import getRandomIntInRange, { getRandomIntInRangeExclusive, getRandomFloatInRange, probability } from '../functions/randomizers';
+import getRandomIntInRange, { getRandomIntInRangeExclusive, probability } from '../functions/randomizers';
+import removeFromArray from '../functions/removeFromArray';
 
 class Encounter extends Component {
     constructor() {
@@ -42,8 +43,95 @@ class Encounter extends Component {
                         You lost $${moneyStolen}.
                     `;
                     break;
+
+                case 1:
+                    // Give him wares
+                    if (player.inventory.length > 1) {
+                        const itemToSteal = getRandomIntInRange(1, player.inventory.length - 1);
+                        const stolenItem = player.inventory[itemToSteal];
+                        const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
+                        player.inventory[itemToSteal].qty -= qtyToSteal;
+                        if (player.inventory[itemToSteal].qty <= 0) {
+                            removeFromArray(stolenItem, player.inventory);
+                        }
+                        outcome.text = `
+                            ${outcome.text}
+                            You lost ${qtyToSteal} of ${stolenItem.type}.
+                        `;
+                    } else {
+                        const percentToSteal = getRandomIntInRange(1, 50);
+                        const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                        player.money -= moneyStolen;
+                        outcome.text = `
+                            Nice try, you don't have any wares so he took your money instead.
+                            You lost $${moneyStolen}.
+                        `;
+                    }
+                    break;
+
+                case 2:
+                    // Try to fight
+                    let successfulFight = false;
+                    if (probability(0.2)) {
+                        successfulFight = true;
+                    }
+                    if (successfulFight) {
+                        outcome.text = outcome.text.positive;
+                    } else {
+                        const percentToSteal = getRandomIntInRange(1, 50);
+                        const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                        player.money -= moneyStolen;
+                        let itemsStolenMessage = '';
+                        if (player.inventory.length > 1) {
+                            const itemToSteal = getRandomIntInRange(1, player.inventory.length - 1);
+                            const stolenItem = player.inventory[itemToSteal];
+                            const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
+                            player.inventory[itemToSteal].qty -= qtyToSteal;
+                            if (player.inventory[itemToSteal].qty <= 0) {
+                                removeFromArray(stolenItem, player.inventory);
+                            }
+                            itemsStolenMessage = ` and ${qtyToSteal} of ${stolenItem.type}`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.negative}
+                            You lost $${moneyStolen}${itemsStolenMessage}.
+                        `;
+                    }
+                    break;
+
+                case 3:
+                    // Try to flee
+                    let successfulFlee = false;
+                    if (probability(0.5)) {
+                        successfulFlee = true;
+                    }
+                    if (successfulFlee) {
+                        outcome.text = outcome.text.positive;
+                    } else {
+                        const percentToSteal = getRandomIntInRange(1, 25);
+                        const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                        player.money -= moneyStolen;
+                        let itemsStolenMessage = '';
+                        if (player.inventory.length > 1) {
+                            const itemToSteal = getRandomIntInRange(1, player.inventory.length - 1);
+                            const stolenItem = player.inventory[itemToSteal];
+                            const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
+                            player.inventory[itemToSteal].qty -= qtyToSteal;
+                            if (player.inventory[itemToSteal].qty <= 0) {
+                                removeFromArray(stolenItem, player.inventory);
+                            }
+                            itemsStolenMessage = ` and ${qtyToSteal} of ${stolenItem.type}`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.negative}
+                            You lost $${moneyStolen}${itemsStolenMessage}.
+                        `;
+                    }
+                    break;
             }
         }
+
+
         this.props.encounterResult(player);
         this.showOutcome(outcome);
     }
