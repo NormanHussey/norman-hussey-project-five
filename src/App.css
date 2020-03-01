@@ -8,6 +8,32 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
 
+@font-face {
+  font-family: 'compasspro';
+  src: url('./assets/fonts/compasspro.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'equipmentpro';
+  src: url('./assets/fonts/equipmentpro.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --colPrimary: #637224;
+  --colSecondary: #77360e;
+  --colTertiary: #6e0d25;
+  --colAccentLight: #ffba00;
+  --colAccentDark: #e88f00;
+  --colOffWhite: #ffedbc;
+  --colOffBlack: #23040c;
+  --fontHeader: 'compasspro', serif;
+  --fontBody: 'equipmentpro', sans-serif;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -23,22 +49,25 @@ h4,
 h5,
 h6 {
   margin: 0;
+  color: var(--colOffWhite);
+  text-shadow: 1px 1px var(--colOffBlack);
+  font-family: var(--fontHeader);
 }
 
 h1 {
-  font-size: 4.5rem;
+  font-size: 6vmax;
 }
 
 h2 {
-  font-size: 4rem;
+  font-size: 4vmax;
 }
 
 h3 {
-  font-size: 3rem;
+  font-size: 3vmax;
 }
 
 h4 {
-  font-size: 2rem;
+  font-size: 2vmax;
 }
 
 p,
@@ -46,11 +75,28 @@ label,
 input,
 select,
 option {
-  font-size: 1.6rem;
+  font-size: 1.5vmax;
 }
 
 body {
   height: 100vh;
+  background-color: var(--colPrimary);
+  scrollbar-color: var(--colAccentDark) var(--colSecondary);
+  font-family: var(--fontBody);
+}
+
+body::-webkit-scrollbar {
+  width: 11px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--colSecondary);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--colAccentDark) ;
+  border-radius: 6px;
+  border: 3px solid var(--colSecondary);
 }
 
 header {
@@ -84,7 +130,7 @@ button {
 
 .gameMain {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   height: 100%;
 }
@@ -101,18 +147,26 @@ button {
 }
 
 .inventory {
-  width: 45%;
+  width: 50%;
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  border: 2px solid black;
+  /* border: 2px solid black; */
+}
+
+.inventory:first-of-type {
+  direction: rtl;
+}
+
+.inventory:first-of-type > * {
+  direction: ltr;
 }
 
 .inventoryItem {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  border: 2px solid black;
+  /* border: 2px solid black; */
 }
 
 .inventoryItem:hover,
@@ -131,6 +185,15 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url('./assets/medievaltrade.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--colPrimary);
+}
+
+.startScreen h1 {
+  color: var(--colAccentLight);
 }
 
 .choices {
@@ -169,6 +232,7 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: var(--colTertiary);
 }
 
 .booleanChoices {
@@ -187,32 +251,64 @@ button {
   align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* THE FOLLOWING CLASSES COMES FROM THE RPGUI CSS LIBRARY */
+/* This library was created by Ronenness and can be found at http://ronenness.github.io/RPGUI/ */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* game div with golden background image*/
+.rpgui-container.framed-golden
+{
   color: white;
+	/* border */
+	border-style: solid;
+	border-image-source: url("./assets/rpgui/border-image-golden.png");
+	border-image-repeat: repeat;
+	border-image-slice: 4 4 4 4;
+	border-image-width: 18px;
+	border-width: 15px;
+	padding: 12px;
+
+	/* internal border */
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+	/* background */
+	background: url("./assets/rpgui/background-image-golden.png") repeat repeat;
+	background-clip: padding-box;
+	background-origin: padding-box;
+	background-position: center;
 }
 
-.App-link {
-  color: #61dafb;
+/* game div with soft grey background image*/
+.rpgui-container.framed-grey
+{
+  color: white;
+	position: relative;
+
+	/* border */
+	border-style: solid;
+	border-image-source: url("./assets/rpgui/border-image-grey.png");
+	border-image-repeat: repeat;
+	border-image-slice: 3 3 3 3;
+	border-image-width: 7px;
+	border-width: 7px;
+	padding: 12px;
+
+	/* internal border */
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+	/* background */
+	background: url("./assets/rpgui/background-image-grey.png") repeat repeat;
+	background-clip: padding-box;
+	background-origin: padding-box;
+  background-position: center;
+  transition: all 0.3s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.rpgui-container.framed-grey:focus,
+.rpgui-container.framed-grey:hover {
+  color: var(--colOffWhite);
+  background-image: linear-gradient(rgba(35, 4, 12, 0.9), rgba(35, 4, 12, 0.9));
 }

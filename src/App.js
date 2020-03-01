@@ -401,7 +401,7 @@ class App extends Component {
         { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } loadGame={ this.loadGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
         <header>
           <div className="wrapper gameHeader">
-            <h2>Day: {this.state.player.day}</h2>
+            <h3>Day: {this.state.player.day}</h3>
             <h2>{this.state.country.name}</h2>
             <div className="headerButtons">
               <button onClick={ this.confirmNewGame }>New Game</button>
