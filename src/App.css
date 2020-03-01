@@ -29,7 +29,7 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
   --colAccentLight: #ffba00;
   --colAccentDark: #e88f00;
   --colOffWhite: #ffedbc;
-  --colOffBlack: #23040c;
+  --colOffBlack: #140206;
   --fontHeader: 'compasspro', serif;
   --fontBody: 'equipmentpro', sans-serif;
 }
@@ -76,13 +76,21 @@ input,
 select,
 option {
   font-size: 1.5vmax;
+  font-family: var(--fontBody);
+}
+
+p {
+  color: var(--colOffWhite);
 }
 
 body {
   height: 100vh;
-  background-color: var(--colPrimary);
   scrollbar-color: var(--colAccentDark) var(--colSecondary);
   font-family: var(--fontBody);
+  background-image: url('./assets/medievaltrade.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 body::-webkit-scrollbar {
@@ -101,18 +109,37 @@ body::-webkit-scrollbar-thumb {
 
 header {
   height: 10vh;
+  background-color: var(--colTertiary);
 }
 
 main {
   height: 70vh;
+  padding: 1vmax 0;
 }
 
 footer {
   height: 20vh;
+  background-color: var(--colTertiary);
 }
 
 button {
-  font-size: 1.6rem;
+  border: 4px ridge var(--colSecondary);
+  background-color: var(--colAccentDark);
+  color: var(--colOffBlack);
+  font-family: var(--fontBody);
+  font-size: 1.75vmax;
+  padding: 0.5vmax 2vmax;
+  transition: all 0.3s;
+}
+
+button:hover,
+button:focus {
+  color: var(--colTertiary);
+  background-color: var(--colAccentLight);
+}
+
+button:active {
+  background-color: var(--colSecondary);
 }
 
 .wrapper {
@@ -126,6 +153,20 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.gameHeader h2 {
+  text-align: left;
+}
+
+.gameHeader > *:first-child,
+.gameHeader > *:last-child {
+  flex-basis: 40%;
+}
+
+.headerButtons {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .gameMain {
@@ -146,12 +187,15 @@ button {
   width: 45%;
 }
 
+.moneySymbol {
+  font-family: var(--fontHeader);
+}
+
 .inventory {
   width: 50%;
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  /* border: 2px solid black; */
 }
 
 .inventory:first-of-type {
@@ -166,12 +210,18 @@ button {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  /* border: 2px solid black; */
+  color: white;
+  border: 4px outset var(--colAccentDark);
+  margin: 4px 0;
+  background-color: var(--colTertiary);
+  transition: all 0.3s;
 }
 
 .inventoryItem:hover,
 .inventoryItem:focus {
-  border-color: red;
+  color: var(--colOffWhite);
+  background-color: var(--colOffBlack);
+  border-color: var(--colAccentLight);
 }
 
 .startScreen {
@@ -180,28 +230,38 @@ button {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: white;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('./assets/medievaltrade.jpg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: var(--colPrimary);
 }
 
 .startScreen h1 {
   color: var(--colAccentLight);
+  text-shadow: 2px 2px 2px var(--colOffBlack), -2px -2px 2px var(--colOffBlack), -2px 2px 2px var(--colOffBlack), 2px -2px 2px var(--colOffBlack);
+}
+
+.startScreen button {
+  border-color: var(--colTertiary);
+}
+
+.startScreen .wrapper {
+  width: 60%;
+  padding: 10vmax 0;
 }
 
 .choices {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
+
+.choices button {
+  margin: 0 1vmax;
+}
+
 
 .startNewGame,
 .loadGame {
@@ -226,7 +286,8 @@ button {
   position: absolute;
   top: 25%;
   left: 25%;
-  border: 2px solid black;
+  z-index: 10;
+  border: 4px outset var(--colAccentDark);
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -251,64 +312,13 @@ button {
   align-items: center;
 }
 
-/* THE FOLLOWING CLASSES COMES FROM THE RPGUI CSS LIBRARY */
-/* This library was created by Ronenness and can be found at http://ronenness.github.io/RPGUI/ */
-
-/* game div with golden background image*/
-.rpgui-container.framed-golden
+.ornateContainer
 {
-  color: white;
-	/* border */
-	border-style: solid;
-	border-image-source: url("./assets/rpgui/border-image-golden.png");
-	border-image-repeat: repeat;
-	border-image-slice: 4 4 4 4;
-	border-image-width: 18px;
-	border-width: 15px;
-	padding: 12px;
-
-	/* internal border */
-	box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-
-	/* background */
-	background: url("./assets/rpgui/background-image-golden.png") repeat repeat;
-	background-clip: padding-box;
-	background-origin: padding-box;
-	background-position: center;
+  border: 8px ridge var(--colAccentDark);
+  background-color: var(--colSecondary);
+  padding: 1vmax;
 }
 
-/* game div with soft grey background image*/
-.rpgui-container.framed-grey
-{
-  color: white;
-	position: relative;
-
-	/* border */
-	border-style: solid;
-	border-image-source: url("./assets/rpgui/border-image-grey.png");
-	border-image-repeat: repeat;
-	border-image-slice: 3 3 3 3;
-	border-image-width: 7px;
-	border-width: 7px;
-	padding: 12px;
-
-	/* internal border */
-	box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-
-	/* background */
-	background: url("./assets/rpgui/background-image-grey.png") repeat repeat;
-	background-clip: padding-box;
-	background-origin: padding-box;
-  background-position: center;
-  transition: all 0.3s;
-}
-
-.rpgui-container.framed-grey:focus,
-.rpgui-container.framed-grey:hover {
-  color: var(--colOffWhite);
-  background-image: linear-gradient(rgba(35, 4, 12, 0.9), rgba(35, 4, 12, 0.9));
+.startScreen .ornateContainer {
+  padding: 5vmax;
 }

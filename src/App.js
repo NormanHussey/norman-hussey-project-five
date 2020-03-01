@@ -398,59 +398,63 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } loadGame={ this.loadGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> : null }
-        <header>
-          <div className="wrapper gameHeader">
-            <h3>Day: {this.state.player.day}</h3>
-            <h2>{this.state.country.name}</h2>
-            <div className="headerButtons">
-              <button onClick={ this.confirmNewGame }>New Game</button>
-              <button onClick={ this.confirmQuit }>Quit Game</button>
+        { !this.state.gameStarted ? <StartScreen startNewGame={ this.setupNewGame } loadGame={ this.loadGame } allPlayers={this.state.allPlayers} countries={Object.keys(this.state.countries)}/> 
+        : 
+          <div>
+          <header>
+            <div className="wrapper gameHeader">
+              <h2>{this.state.country.name}</h2>
+              <h3>Day: {this.state.player.day}</h3>
+              <div className="headerButtons">
+                <button onClick={ this.confirmNewGame }>New Game</button>
+                <button onClick={ this.confirmQuit }>Quit Game</button>
+              </div>
+              { this.state.startNewGame ? 
+                <div className="popup">
+                  <h3>Are you sure you want to start a new game?</h3>
+                  <p>(All of your current progress will be lost)</p>
+                  <div className="booleanChoices">
+                    <button onClick={ this.chooseNewCountry }>Yes</button>
+                    <button onClick={ this.confirmNewGame }>No</button>
+                  </div>
+                </div>
+                : null
+              }
+              { this.state.quitGame ? 
+                <div className="popup">
+                  <h3>Are you sure you want to quit?</h3>
+                  { this.state.player.name === "Nameless Merchant" ? <p>(All of your current progress will be lost)</p> : <p>(Your game is saved)</p>}
+                  <div className="booleanChoices">
+                    <button onClick={ this.quitting }>Yes</button>
+                    <button onClick={ this.confirmQuit }>No</button>
+                  </div>
+                </div>
+                : null
+              }
+              { this.state.chooseNewCountry ? 
+                <div className="popup">
+                  <ChooseCountry beginGame={ this.startingNewGame } countries={Object.keys(this.state.countries)} />
+                </div>
+                : null }
             </div>
-            { this.state.startNewGame ? 
-              <div className="popup">
-                <h3>Are you sure you want to start a new game?</h3>
-                <p>(All of your current progress will be lost)</p>
-                <div className="booleanChoices">
-                  <button onClick={ this.chooseNewCountry }>Yes</button>
-                  <button onClick={ this.confirmNewGame }>No</button>
-                </div>
-              </div>
-              : null
-            }
-            { this.state.quitGame ? 
-              <div className="popup">
-                <h3>Are you sure you want to quit?</h3>
-                { this.state.player.name === "Nameless Merchant" ? <p>(All of your current progress will be lost)</p> : <p>(Your game is saved)</p>}
-                <div className="booleanChoices">
-                  <button onClick={ this.quitting }>Yes</button>
-                  <button onClick={ this.confirmQuit }>No</button>
-                </div>
-              </div>
-              : null
-            }
-            { this.state.chooseNewCountry ? 
-              <div className="popup">
-                <ChooseCountry beginGame={ this.startingNewGame } countries={Object.keys(this.state.countries)} />
-              </div>
-              : null }
+          </header>
+          <main>
+            <div className="wrapper gameMain">
+              { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
+              { this.state.location.inventory ? <Inventory owner={this.state.location} clickFunction={this.itemClicked}/> : null}
+            </div>
+          </main>
+          <footer>
+            <div className="wrapper gameFooter">
+              <h2>${this.state.player.money}</h2>
+              { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
+              { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
+              { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
+              { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+            </div>
+          </footer>
           </div>
-        </header>
-        <main>
-          <div className="wrapper gameMain">
-            { this.state.player.inventory ? <Inventory owner={this.state.player} clickFunction={this.itemClicked}/> : null }
-            { this.state.location.inventory ? <Inventory owner={this.state.location} clickFunction={this.itemClicked}/> : null}
-          </div>
-        </main>
-        <footer>
-          <div className="wrapper gameFooter">
-            <h2>${this.state.player.money}</h2>
-            { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
-            { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
-            { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
-            { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
-          </div>
-        </footer>
+        }
       </div>
     );
   }

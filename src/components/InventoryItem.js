@@ -4,10 +4,10 @@ class InventoryItem extends Component {
     render() {
         const item = this.props.item;
         return(
-            <div className="inventoryItem rpgui-container framed-grey" onClick={() => { this.props.clickFunction(item) }}>
-            <p>Type: {item.type}</p>
+            <div className="inventoryItem" tabIndex="0" onClick={() => { this.props.clickFunction(item) }}>
+            <p>{item.type}</p>
             <p>Qty: {item.qty}</p>
-            <p>Price: {item.price}</p>
+            <p><span className="moneySymbol">$</span>{item.price}</p>
             </div>
         );
     }

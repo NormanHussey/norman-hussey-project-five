@@ -6,7 +6,7 @@ class Inventory extends Component {
     render() {
         const owner = this.props.owner;
         return(
-            <div className = "inventory rpgui-container framed-golden">
+            <div className = "inventory ornateContainer">
             <h3>{owner.name}</h3>
             { owner.maxInventory ? <h4>{owner.inventorySize} / {owner.maxInventory}</h4> : null}
             {
