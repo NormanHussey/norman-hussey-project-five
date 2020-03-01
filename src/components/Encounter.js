@@ -7,28 +7,25 @@ class Encounter extends Component {
     constructor() {
         super();
         this.state = {
-            encountersLeft: 0,
-            currentEncounter: ''
+            encounters: [],
+            currentEncounter: 0,
+            encountersLeft: 0
         };
     }
 
     componentDidMount() {
+        const encountersArray = [];
+        for (let i = 0; i < this.props.numberOfEncounters; i++) {
+            const choice = getRandomIntInRangeExclusive(0, encounterScenarios.length);
+            encountersArray.push(encounterScenarios[choice]);
+        }
         this.setState({
-            encountersLeft: this.props.encounters
-        },
-            this.chooseEncounter
-        );
-    }
-
-    chooseEncounter = () => {
-        const choice = getRandomIntInRangeExclusive(0, encounterScenarios.length);
-        this.setState({
-            currentEncounter: encounterScenarios[choice]
+            encounters: encountersArray
         });
     }
 
     processPlayerChoice = (choice) => {
-        const scenario = this.state.currentEncounter;
+        const scenario = this.state.encounters[this.state.currentEncounter];
         const player = this.props.player;
         console.log(scenario.outcomes[choice]);
         if (scenario.type === 'robbery') {
@@ -42,14 +39,19 @@ class Encounter extends Component {
             }
         }
         this.props.encounterResult(player);
+        const encountersArray = [...this.state.encounters];
+        encountersArray.shift();
+        this.setState({
+            encounters: encountersArray
+        });
     }
 
     render() {
-        const scenario = this.state.currentEncounter;
+        const scenario = this.state.encounters[this.state.currentEncounter];
         return(
             <div className="popup encounter">
-                { this.state.currentEncounter ? 
-                    <div>
+                { this.state.encounters.length > 0 ?
+                    <div key={'scenario' + this.state.currentEncounter}>
                         <p>{scenario.text}</p>
                         <div className="choices">
                             {
