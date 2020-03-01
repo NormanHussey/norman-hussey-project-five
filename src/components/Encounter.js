@@ -133,6 +133,9 @@ class Encounter extends Component {
                     }
                     break;
 
+                default:
+                    break;
+
             }
         } else if (scenario.type === 'looting') {
             switch(choice) {
@@ -205,9 +208,162 @@ class Encounter extends Component {
                     }
                     break;
 
+                default:
+                    break;
+
+            }
+        } else if (scenario.type === 'saviour') {
+            switch(choice) {
+                case 0:
+                    // Pay off
+                    if (probability(0.49)) {
+                        let rewardText = '';
+                        if (player.inventorySize < player.maxInventory) {
+                            const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
+                            const qtyReward = getRandomIntInRange(1, (player.maxInventory - player.inventorySize));
+                            const rewardedItem = allItems[itemReward];
+                            rewardedItem.qty = qtyReward;
+                            rewardedItem.price = 0;
+                            player.inventorySize += qtyReward;
+                            let playerHasItem = false;
+                            player.inventory.forEach((item)=> {
+                                if (item.type === rewardedItem.type) {
+                                    item.qty += rewardedItem.qty;
+                                    playerHasItem = true;
+                                }
+                            })
+                            if (!playerHasItem) {
+                                player.inventory.push(rewardedItem);
+                            }
+                            rewardText = `You get ${qtyReward} x ${rewardedItem.type}.`;
+                        } else {
+                            rewardText = `But unfortunately, you have no space in your inventory.`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.positive}
+                            ${rewardText}
+                        `;
+
+                    } else {
+                        const paymentPercent = getRandomIntInRange(1, 25);
+                        const moneyPaid = Math.round(player.money * (paymentPercent / 100));
+                        player.money -= moneyPaid;
+                        outcome.text = `
+                            ${outcome.text.negative}
+                            You lost $${moneyPaid}.
+                        `;
+                    }
+                    break;
+
+                case 1:
+                    // Fight off
+                    if (probability(0.2)) {
+                        const rewardMoney = getRandomIntInRange(250, 2000);
+                        player.money += rewardMoney;
+                        let rewardText = `You get $${rewardMoney}`;
+                        if (player.inventorySize < player.maxInventory) {
+                            const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
+                            const qtyReward = getRandomIntInRange(1, (player.maxInventory - player.inventorySize));
+                            const rewardedItem = allItems[itemReward];
+                            rewardedItem.qty = qtyReward;
+                            rewardedItem.price = 0;
+                            player.inventorySize += qtyReward;
+                            let playerHasItem = false;
+                            player.inventory.forEach((item)=> {
+                                if (item.type === rewardedItem.type) {
+                                    item.qty += rewardedItem.qty;
+                                    playerHasItem = true;
+                                }
+                            });
+                            if (!playerHasItem) {
+                                player.inventory.push(rewardedItem);
+                            }
+                            rewardText += ` and ${qtyReward} x ${rewardedItem.type}`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.positive}
+                            ${rewardText}.
+                        `;
+                    } else {
+                        const percentToSteal = getRandomIntInRange(1, 50);
+                        const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                        player.money -= moneyStolen;
+                        let itemsStolenMessage = '';
+                        if (player.inventory.length > 1) {
+                            const itemToSteal = getRandomIntInRange(1, player.inventory.length - 1);
+                            const stolenItem = player.inventory[itemToSteal];
+                            const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
+                            player.inventory[itemToSteal].qty -= qtyToSteal;
+                            player.inventorySize -= qtyToSteal;
+                            if (player.inventory[itemToSteal].qty <= 0) {
+                                removeFromArray(stolenItem, player.inventory);
+                            }
+                            itemsStolenMessage = ` and ${qtyToSteal} x ${stolenItem.type}`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.negative}
+                            You lost $${moneyStolen}${itemsStolenMessage}.
+                        `;
+                    }
+                    break;
+
+                case 2:
+                    // Help the enemy
+                    if (probability(0.5)) {
+                        const rewardMoney = getRandomIntInRange(50, 1000);
+                        player.money += rewardMoney;
+                        let rewardText = `You get $${rewardMoney}`;
+                        if (player.inventorySize < player.maxInventory) {
+                            const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
+                            const qtyReward = getRandomIntInRange(1, Math.round((player.maxInventory - player.inventorySize) / 2));
+                            const rewardedItem = allItems[itemReward];
+                            rewardedItem.qty = qtyReward;
+                            rewardedItem.price = 0;
+                            player.inventorySize += qtyReward;
+                            let playerHasItem = false;
+                            player.inventory.forEach((item)=> {
+                                if (item.type === rewardedItem.type) {
+                                    item.qty += rewardedItem.qty;
+                                    playerHasItem = true;
+                                }
+                            });
+                            if (!playerHasItem) {
+                                player.inventory.push(rewardedItem);
+                            }
+                            rewardText += ` and ${qtyReward} x ${rewardedItem.type}`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.positive}
+                            ${rewardText}.
+                        `;
+                    } else {
+                        const percentToSteal = getRandomIntInRange(1, 75);
+                        const moneyStolen = Math.round(player.money * (percentToSteal / 100));
+                        player.money -= moneyStolen;
+                        let itemsStolenMessage = '';
+                        if (player.inventory.length > 1) {
+                            const itemToSteal = getRandomIntInRange(1, player.inventory.length - 1);
+                            const stolenItem = player.inventory[itemToSteal];
+                            const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
+                            player.inventory[itemToSteal].qty -= qtyToSteal;
+                            player.inventorySize -= qtyToSteal;
+                            if (player.inventory[itemToSteal].qty <= 0) {
+                                removeFromArray(stolenItem, player.inventory);
+                            }
+                            itemsStolenMessage = ` and ${qtyToSteal} x ${stolenItem.type}`;
+                        }
+                        outcome.text = `
+                            ${outcome.text.negative}
+                            You lost $${moneyStolen}${itemsStolenMessage}.
+                        `;
+                    }
+                    break;
+
+                default:
+                    break;
+
             }
         }
-
 
         this.props.encounterResult(player);
         this.showOutcome(outcome);

@@ -12,12 +12,12 @@ const encounterScenarios = [
             "He takes your money and rides away.",
             'He chooses some of your wares and leaves you be.',
             {
-                positive: 'You successfully fought him off!',
-                negative: 'He beat you senseless and helped himself to your property.' 
+                positive: 'You successfully fight him off!',
+                negative: 'He beats you senseless and helps himself to your property.' 
             },
             {
-                positive: 'You successfully fled from the robber!',
-                negative: 'He caught you trying to escape and took what he wanted from you.'
+                positive: 'You successfully flee from the robber!',
+                negative: 'He catches you trying to escape and takes what he wants from you.'
             }
         ]
     },
@@ -46,11 +46,33 @@ const encounterScenarios = [
             'You continue on your way.'
         ]
     },
-    // {
-    //     type: 'looting',
-    //     text: 'You find an overturned caravan in a ditch beside the road. The owner appears to be dead.',
-    //     result: 1
-    // }
+    {
+        type: 'saviour',
+        text: 'You see a young family being robbed in the forest beside the road.',
+        options: [
+            'Pay off the robber',
+            'Fight off the robber',
+            'Help the robber',
+            'Mind your own business'
+        ],
+        outcomes: [
+            {
+                positive: 'The robber is spooked by your arrival and rides away empty-handed. The family offers you a reward.',
+                negative: 'The robber helps himself to your property and rides away satisfied.'
+            },
+            {
+                positive: 'You successfully fight him off! The family greatly rewards your gallantry.',
+                negative: 'He beats you to an inch of your life but the family is able to escape so he robs you instead.'
+            },
+            {
+                positive: 'He is grateful for your assistance and splits the haul with you.',
+                negative: 'He accepts your help but turns on your afterwards.'
+            },
+            "You ride away swiftly to the sound of sobbing children echoing through the trees."
+        ]
+    }
+
+
 ];
 
 export default encounterScenarios;
