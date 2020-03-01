@@ -65,7 +65,7 @@ class Encounter extends Component {
                         const moneyStolen = Math.round(player.money * (percentToSteal / 100));
                         player.money -= moneyStolen;
                         outcome.text = `
-                            Nice try, you don't have any wares so he took your money instead.
+                            Nice try, you don't have any wares.
                             You lost $${moneyStolen}.
                         `;
                     }
