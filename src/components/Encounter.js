@@ -8,8 +8,7 @@ class Encounter extends Component {
         super();
         this.state = {
             encounters: [],
-            currentEncounter: 0,
-            encountersLeft: 0
+            currentEncounter: 0
         };
     }
 
@@ -27,7 +26,10 @@ class Encounter extends Component {
     processPlayerChoice = (choice) => {
         const scenario = this.state.encounters[this.state.currentEncounter];
         const player = this.props.player;
-        console.log(scenario.outcomes[choice]);
+        const outcome = {
+            type: 'resolved',
+            text: scenario.outcomes[choice]
+        };
         if (scenario.type === 'robbery') {
             switch (choice) {
                 case 0:
@@ -35,15 +37,32 @@ class Encounter extends Component {
                     const percentToSteal = getRandomIntInRange(1, 25);
                     const moneyStolen = Math.round(player.money * (percentToSteal / 100));
                     player.money -= moneyStolen;
+                    outcome.text = `
+                        ${outcome.text}
+                        You lost $${moneyStolen}.
+                    `;
                     break;
             }
         }
         this.props.encounterResult(player);
+        this.showOutcome(outcome);
+    }
+
+    showOutcome = (outcome) => {
+        const encountersArray = [...this.state.encounters];
+        encountersArray[0] = outcome;
+        this.setState({
+            encounters: encountersArray
+        });
+    }
+
+    nextEncounter = () => {
         const encountersArray = [...this.state.encounters];
         encountersArray.shift();
         this.setState({
             encounters: encountersArray
         });
+        this.props.adjustNumberOfEncounters(encountersArray.length);
     }
 
     render() {
@@ -51,10 +70,11 @@ class Encounter extends Component {
         return(
             <div className="popup encounter">
                 { this.state.encounters.length > 0 ?
-                    <div key={'scenario' + this.state.currentEncounter}>
+                    <div key={scenario.type + Math.random()}>
                         <p>{scenario.text}</p>
                         <div className="choices">
                             {
+                                scenario.type !== 'resolved' ?
                                 scenario.options.map((option, index)=> {
                                     return(
                                         <button onClick={
@@ -62,6 +82,8 @@ class Encounter extends Component {
                                         } key={scenario.type + index}>{option}</button>
                                     );
                                 })
+                                :
+                                <button onClick={this.nextEncounter} key={scenario.text + Math.random()}>Continue</button>
                             }
                         </div>
                     </div>
