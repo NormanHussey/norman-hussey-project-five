@@ -27,6 +27,7 @@ class Encounter extends Component {
     processPlayerChoice = (choice) => {
         const scenario = this.state.encounters[this.state.currentEncounter];
         const player = this.props.player;
+        const allItems = this.props.allItems;
         const outcome = {
             type: 'resolved',
             text: scenario.outcomes[choice]
@@ -51,12 +52,13 @@ class Encounter extends Component {
                         const stolenItem = player.inventory[itemToSteal];
                         const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
                         player.inventory[itemToSteal].qty -= qtyToSteal;
+                        player.inventorySize -= qtyToSteal;
                         if (player.inventory[itemToSteal].qty <= 0) {
                             removeFromArray(stolenItem, player.inventory);
                         }
                         outcome.text = `
                             ${outcome.text}
-                            You lost ${qtyToSteal} of ${stolenItem.type}.
+                            You lost ${qtyToSteal} x ${stolenItem.type}.
                         `;
                     } else {
                         const percentToSteal = getRandomIntInRange(1, 50);
@@ -87,10 +89,11 @@ class Encounter extends Component {
                             const stolenItem = player.inventory[itemToSteal];
                             const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
                             player.inventory[itemToSteal].qty -= qtyToSteal;
+                            player.inventorySize -= qtyToSteal;
                             if (player.inventory[itemToSteal].qty <= 0) {
                                 removeFromArray(stolenItem, player.inventory);
                             }
-                            itemsStolenMessage = ` and ${qtyToSteal} of ${stolenItem.type}`;
+                            itemsStolenMessage = ` and ${qtyToSteal} x ${stolenItem.type}`;
                         }
                         outcome.text = `
                             ${outcome.text.negative}
@@ -102,7 +105,7 @@ class Encounter extends Component {
                 case 3:
                     // Try to flee
                     let successfulFlee = false;
-                    if (probability(0.5)) {
+                    if (probability(0.4)) {
                         successfulFlee = true;
                     }
                     if (successfulFlee) {
@@ -117,10 +120,11 @@ class Encounter extends Component {
                             const stolenItem = player.inventory[itemToSteal];
                             const qtyToSteal = getRandomIntInRange(1, stolenItem.qty);
                             player.inventory[itemToSteal].qty -= qtyToSteal;
+                            player.inventorySize -= qtyToSteal;
                             if (player.inventory[itemToSteal].qty <= 0) {
                                 removeFromArray(stolenItem, player.inventory);
                             }
-                            itemsStolenMessage = ` and ${qtyToSteal} of ${stolenItem.type}`;
+                            itemsStolenMessage = ` and ${qtyToSteal} x ${stolenItem.type}`;
                         }
                         outcome.text = `
                             ${outcome.text.negative}
@@ -128,6 +132,55 @@ class Encounter extends Component {
                         `;
                     }
                     break;
+
+            }
+        } else if (scenario.type === 'looting') {
+            switch(choice) {
+                case 0:
+                    // Loot the caravan
+                    if (probability(0.5)) {
+                        if (player.inventorySize >= player.maxInventory) {
+                            outcome.text = `
+                                ${outcome.text.positive}
+                                But unfortunately, you have no space in your inventory.
+                            `;
+                        } else {
+                            const itemToLoot = getRandomIntInRangeExclusive(0, allItems.length);
+                            const qtyToLoot = getRandomIntInRange(1, (player.maxInventory - player.inventorySize));
+                            const lootedItem = allItems[itemToLoot];
+                            lootedItem.qty = qtyToLoot;
+                            lootedItem.price = 0;
+                            player.inventorySize += qtyToLoot;
+                            let playerHasItem = false;
+                            player.inventory.forEach((item)=> {
+                                if (item.type === lootedItem.type) {
+                                    item.qty += lootedItem.qty;
+                                    playerHasItem = true;
+                                }
+                            })
+                            if (!playerHasItem) {
+                                player.inventory.push(lootedItem);
+                            }
+                            outcome.text = `
+                                ${outcome.text.positive}
+                                You find ${qtyToLoot} x ${lootedItem.type}.
+                            `;
+                        }
+                    } else {
+                        outcome.text = outcome.text.negative;
+                    }
+                    break;
+
+                case 1:
+                    // Loot the owner
+
+                    break;
+
+                case 2:
+                    // Try to help the owner
+
+                    break;
+
             }
         }
 

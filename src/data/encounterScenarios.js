@@ -32,16 +32,16 @@ const encounterScenarios = [
         ],
         outcomes: [
             {
-                positive: 'You successfully fought him off!',
-                negative: 'He beat you senseless and helped himself to your property.' 
+                positive: 'You scrounge around inside the caravan and find some items!',
+                negative: 'The caravan is empty.' 
             },
             {
-                positive: 'You successfully fled from the robber!',
-                negative: 'He caught you trying to escape and took what he wanted from you.'
+                positive: 'You dig through his pockets and find some money!',
+                negative: 'His pockets are empty. It seems another person of low moral fibre beat you to it.'
             },
             {
-                positive: 'You successfully fled from the robber!',
-                negative: 'He caught you trying to escape and took what he wanted from you.'
+                positive: "He regains consciousness! He wasn't dead after all and is now very grateful! He gives you a big reward.",
+                negative: "He opens his eyes and swiftly brings a knife to your throat! You fell for his trap so he robs you."
             },
             'You continue on your way.'
         ]
