@@ -423,7 +423,7 @@ class App extends Component {
               </div>
               {
                 this.state.menuOpen ?
-                <div className="popup">
+                <div className="popup mainMenu">
                   <div className="choices">
                     <button onClick={ this.confirmNewGame }>New Game</button>
                     <button onClick={ this.confirmQuit }>Quit Game</button>

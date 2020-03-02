@@ -51,6 +51,7 @@ class TravelSelection extends Component {
         
         return(
             <div className="popup travelScreen">
+                <h3>Travel Cost: $25 / day</h3>
                 <div className="travelDestinations"> 
                     <button key={previousCountry + travelCostToPreviousCountry} onClick={
                         () => { this.props.travel(previousCountryLocation, travelCostToPreviousCountry, previousCountry) }

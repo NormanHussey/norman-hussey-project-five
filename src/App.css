@@ -222,7 +222,10 @@ select:focus {
 
 .gameFooter > * {
   width: 45%;
-  height: 40%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .travelButton {
@@ -316,6 +319,14 @@ select:focus {
   margin: 0 1vmax;
 }
 
+.mainMenu .choices {
+  flex-direction: column;
+}
+
+.mainMenu .choices button {
+  margin: 1vmax 0;
+}
+
 .startNewGame,
 .loadGame {
   height: 100%;
@@ -356,15 +367,15 @@ select:focus {
 
 
 .countryChoiceForm button {
-  margin: 1vmax 0;
+  margin: 1.5vmax 0;
 }
 
 .popup {
-  width: 50vw;
-  height: 50vh;
+  width: 75vw;
+  height: 75vh;
   position: absolute;
-  top: 25%;
-  left: 25%;
+  top: 12.5%;
+  left: 12.5%;
   z-index: 10;
   border: 4px outset var(--colAccentDark);
   background-color: white;
@@ -374,6 +385,10 @@ select:focus {
   justify-content: center;
   background-color: var(--colPrimary);
   padding: 1vmax;
+}
+
+.popup form button {
+  width: 100%;
 }
 
 .booleanChoices {
@@ -387,7 +402,10 @@ select:focus {
 
 .travelScreen {
   width: 75vw;
+  height: 50vh;
+  top: 25%;
   left: 12.5%;
+
 }
 
 .travelScreen > button {
@@ -433,18 +451,39 @@ select:focus {
 
 .startScreen .ornateContainer {
   width: 50vw;
-  height: 50vh;
+  height: 60vh;
   padding: 2.5vmax;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+.startScreen .ornateContainer > button {
+  margin: 1vmax 0;
+}
+
 .startNewGame .ornateContainer {
   width: 60vw;
-  height: 75vh;
+  height: 90vh;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.startNewGame .ornateContainer p {
+  margin: 0;
+}
+
+.startNewGame .ornateContainer > button {
+  margin: 1vmax 0;
+}
+
+.popup .ornateContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.popup .ornateContainer form {
+  height: 100%;
 }
 
 .darkContainer {
@@ -499,6 +538,7 @@ select:focus {
 
   .gameFooter > * {
     width: 100%;
+    height: 40%;
   }
 
   .travelButton {
