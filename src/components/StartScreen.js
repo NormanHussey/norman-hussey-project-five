@@ -24,6 +24,13 @@ class StartScreen extends Component {
         });
     }
 
+    backToMainMenu = () => {
+        this.setState({
+            newGame: false,
+            loadGame: false
+        });
+    }
+
     render() {
         return(
             <div className="startScreen">
@@ -38,8 +45,8 @@ class StartScreen extends Component {
                     </div>
                     : null 
                 }
-                { this.state.newGame ? <NewGame startNewGame={ this.props.startNewGame } allPlayers={Object.keys(this.props.allPlayers)} countries={this.props.countries}/> : null}
-                { this.state.loadGame ? <LoadGame loadGame={ this.props.loadGame } allPlayers={this.props.allPlayers} /> : null}
+                { this.state.newGame ? <NewGame mainMenu={ this.backToMainMenu } startNewGame={ this.props.startNewGame } allPlayers={Object.keys(this.props.allPlayers)} countries={this.props.countries}/> : null}
+                { this.state.loadGame ? <LoadGame mainMenu={ this.backToMainMenu } loadGame={ this.props.loadGame } allPlayers={this.props.allPlayers} /> : null}
             </div>
         );
     }

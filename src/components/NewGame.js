@@ -72,7 +72,7 @@ class NewGame extends Component {
                     <div className="ornateContainer">
                         <div>
                             <h3>Create an account:</h3>
-                            <h4>(An account will save your game automatically and allow you to return to it later)</h4>
+                            <p>(An account will save your game automatically)</p>
                             <form onSubmit={ this.createNewAccount } action="submit" className="newGameForm">
                                 <label htmlFor="newUserName">Choose your user name: </label>
                                 <input onChange={ this.enteringUserName } type="text" name="newUserName" id="newUserName" minLength="2" required />
@@ -86,6 +86,7 @@ class NewGame extends Component {
                             <h3>Or play as a guest:</h3>
                             <button onClick={ this.playAsGuest } type="submit">Play as Guest</button>
                         </div>
+                        <button onClick={ this.props.mainMenu }>Main Menu</button>
                     </div>
                     :
                     <ChooseCountry beginGame={ this.beginGame } countries={ this.props.countries } />

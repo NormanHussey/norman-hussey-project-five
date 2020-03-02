@@ -222,6 +222,11 @@ select:focus {
 
 .gameFooter > * {
   width: 45%;
+  height: 40%;
+}
+
+.travelButton {
+  font-size: 3.5vmax;
 }
 
 .moneySymbol {
@@ -392,9 +397,11 @@ select:focus {
 .travelDestinations {
   overflow: auto;
   width: 100%;
+  height: 75%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  justify-content: center;
   align-content: center;
 }
 
@@ -492,7 +499,14 @@ select:focus {
 
   .gameFooter > * {
     width: 100%;
-    height: 40%;
+  }
+
+  .travelButton {
+    font-size: 5vmax;
+  }
+
+  .travelDestinations {
+    height: 100%;
   }
 
   .darkContainer {
@@ -502,7 +516,11 @@ select:focus {
   }
 
   .startScreen .ornateContainer {
-    width: 80vw;
+    width: 90vw;
+  }
+
+  .startScreen h3 {
+    font-size: 3.5vmax;
   }
 
   .choices {
@@ -543,6 +561,20 @@ select:focus {
 
   .encounter p {
     font-size: 3vmax;
+  }
+
+}
+
+@media (max-width: 400px) {
+  p,
+  button,
+  input,
+  label {
+    font-size: 3vmax;
+  }
+
+  .travelDestinations button {
+    font-size: 2.5vmax;
   }
 
 }

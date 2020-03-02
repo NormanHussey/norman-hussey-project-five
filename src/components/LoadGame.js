@@ -67,6 +67,7 @@ class LoadGame extends Component {
                     <input onChange={ this.inputPassword } type="password" name="loadPassword" id="loadPassword" />
                     { !this.state.validPassword ? <p>Invalid Password</p> : null }
                     <button type="submit">Load Game</button>
+                    <button onClick={ this.props.mainMenu }>Main Menu</button>
                 </form>
             </div>
         );

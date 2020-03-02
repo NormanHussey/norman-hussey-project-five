@@ -33,6 +33,7 @@ class App extends Component {
       selectedQty: 0,
       maxQty: 0,
       traveling: false,
+      menuOpen: false,
       startNewGame: false,
       quitGame: false,
       chooseNewCountry: false,
@@ -340,8 +341,15 @@ class App extends Component {
     });
   }
 
+  toggleMenuOpen = () => {
+    this.setState({
+      menuOpen: !this.state.menuOpen
+    });
+  }
+
   confirmNewGame = () => {
     this.setState({
+      menuOpen: false,
       startNewGame: !this.state.startNewGame
     });
   }
@@ -349,6 +357,7 @@ class App extends Component {
   chooseNewCountry = () => {
     this.setState({
       chooseNewCountry: true,
+      menuOpen: false,
       startNewGame: false,
       quitGame: false
     });
@@ -376,6 +385,7 @@ class App extends Component {
 
   confirmQuit = () => {
     this.setState({
+      menuOpen: false,
       quitGame: !this.state.quitGame
     });
   }
@@ -389,6 +399,7 @@ class App extends Component {
       selectedQty: 0,
       maxQty: 0,
       traveling: false,
+      menuOpen: false,
       startNewGame: false,
       quitGame: false,
       chooseNewCountry: false
@@ -408,9 +419,19 @@ class App extends Component {
                 <h3>Day: {this.state.player.day}</h3>
               </div>
               <div className="headerButtons">
-                <button onClick={ this.confirmNewGame }>New Game</button>
-                <button onClick={ this.confirmQuit }>Quit Game</button>
+                <button onClick={ this.toggleMenuOpen }>Menu</button>
               </div>
+              {
+                this.state.menuOpen ?
+                <div className="popup">
+                  <div className="choices">
+                    <button onClick={ this.confirmNewGame }>New Game</button>
+                    <button onClick={ this.confirmQuit }>Quit Game</button>
+                    <button onClick={ this.toggleMenuOpen }>Close Menu</button>
+                  </div>
+                </div>
+                : null
+              }
               { this.state.startNewGame ? 
                 <div className="popup">
                   <h3>Are you sure you want to start a new game?</h3>
@@ -454,7 +475,7 @@ class App extends Component {
               { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
               { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
               { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
-              { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button onClick={ this.toggleTravelSelection }>Travel</button>}
+              { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button className="travelButton" onClick={ this.toggleTravelSelection }>Travel</button>}
             </div>
           </footer>
           </div>
