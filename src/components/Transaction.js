@@ -20,22 +20,36 @@ class Transaction extends Component {
     }
   
     render() {
-      let priceDisplay = 'Price';
+      let priceDisplay = this.props.item.price;
+      let ableToSell = true;
       if (this.props.type === 'Sell') {
-        priceDisplay = 'Cost';
+        let found = false;
+        this.props.buyer.inventory.forEach((item)=> {
+          if (item.type === this.props.item.type) {
+            found = true;
+            priceDisplay = item.price;
+          }
+        });
+        ableToSell = found;
       }
+
       return(
         <div className="popup transactionScreen">
+        { ableToSell ?
           <div>
-            <h2>{this.props.item.type}</h2>
-            <h3>{priceDisplay}: ${this.props.item.price}</h3>
-            <h4>Qty: {this.props.item.qty}</h4>
+            <div>
+              <h2>{this.props.item.type}</h2>
+              <h3>Price: ${priceDisplay}</h3>
+              <h4>Qty: {this.props.item.qty}</h4>
+            </div>
+            <form onSubmit={ this.handleFormSubmit }>
+              <input type="number" onChange={ this.inputChange } min="0" max={this.props.maxQty}/>
+              <button type="submit">{this.props.type}</button>
+            </form>
           </div>
-          <form onSubmit={ this.handleFormSubmit }>
-            <input type="number" onChange={ this.inputChange } min="0" max={this.props.maxQty}/>
-            <button type="submit">{this.props.type}</button>
-          </form>
-          <button onClick={this.props.cancel}>Cancel</button>
+            : <h3>{this.props.buyer.name} is not buying any {this.props.item.type}.</h3>
+          }
+            <button onClick={this.props.cancel}>Cancel</button>
         </div>
       );
     }

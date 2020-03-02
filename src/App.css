@@ -405,7 +405,7 @@ select:focus {
   height: 50vh;
   top: 25%;
   left: 12.5%;
-
+  padding: 1vmax;
 }
 
 .travelScreen > button {
@@ -570,6 +570,10 @@ select:focus {
   .choices button {
     margin: 1vmax;
     font-size: 3vmax;
+  }
+
+  .transactionScreen {
+    height: 60vh;
   }
 
   .transactionScreen button {
