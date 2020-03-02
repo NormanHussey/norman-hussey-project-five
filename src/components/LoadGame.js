@@ -58,7 +58,7 @@ class LoadGame extends Component {
 
     render() {
         return (
-            <div className="ornateContainer">
+            <div className="ornateContainer login">
                 <form onSubmit={ this.accountValidation } action="submit" className="loadGame">
                     <label htmlFor="loadUserName">Username:</label>
                     <input onChange={ this.inputUserName } type="text" name="loadUserName" id="loadUserName" />
