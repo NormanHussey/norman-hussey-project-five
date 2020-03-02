@@ -390,6 +390,10 @@ select:focus {
   width: 100%;
 }
 
+.popup .countryChoiceForm button {
+  width: 50%;
+}
+
 .booleanChoices {
   display: flex;
 }
