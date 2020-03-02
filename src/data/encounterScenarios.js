@@ -137,10 +137,10 @@ const encounterScenarios = [
                 negative: 'She accepts the lift but when you reach the village, she pulls a knife on you and helps herself to your purse.'
             },
             {
-                positive: "She fleece her for everything she's got and leave her crying at the side of the road.",
+                positive: "You fleece her for everything she's got and leave her crying at the side of the road.",
                 negative: "Just as you begin digging through her pockets, her huge and imposing son comes out of the bushes after relieving himself. He makes you pay for your fiendish ways."
             },
-            "You continue riding by, refusing to make eye contact, and she stares up at you in despair."
+            "You continue riding by, refusing to make eye contact, as she stares up at you in despair."
         ]
     }
 

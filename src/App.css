@@ -246,7 +246,7 @@ select:focus {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  color: white;
+  color: var(--colOffWhite);
   border: 4px outset var(--colAccentDark);
   margin: 4px 0;
   background-color: var(--colPrimary);
@@ -255,9 +255,13 @@ select:focus {
 
 .inventoryItem:hover,
 .inventoryItem:focus {
-  color: var(--colOffWhite);
   background-color: var(--colOffBlack);
   border-color: var(--colAccentLight);
+}
+
+.inventoryItem:hover p,
+.inventoryItem:focus p {
+  color: var(--colAccentLight);
 }
 
 .inventoryItem > * {
@@ -284,6 +288,11 @@ select:focus {
 
 .startScreen button {
   border-color: var(--colPrimary);
+}
+
+.startScreen button:hover,
+.startScreen button:focus {
+  border-color: var(--colOffWhite);
 }
 
 .startScreen .wrapper {
@@ -396,6 +405,15 @@ select:focus {
   margin: 1vmax 0;
 }
 
+.encounter .choices {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.encounter p {
+  font-size: 2vmax;
+}
+
 .ornateContainer {
   border: 8px ridge var(--colAccentDark);
   background-color: var(--colSecondary);
@@ -422,4 +440,33 @@ select:focus {
   background-color: var(--colOffBlack);
   border: 4px ridge var(--colAccentDark);
   padding: 0 0.75vmin;
+}
+
+.darkContainer h2,
+.darkContainer h3 {
+  color: var(--colAccentLight);
+}
+
+@media (max-width: 800px) {
+
+  .wrapper {
+    width: 100%;
+  }
+
+  button {
+    font-size: 2.5vmax;
+  }
+
+  .startScreen .ornateContainer {
+    width: 80vw;
+  }
+
+  .choices {
+    flex-direction: column;
+  }
+
+  .choices button {
+    margin: 1vmax;
+  }
+
 }

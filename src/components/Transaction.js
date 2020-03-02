@@ -20,12 +20,16 @@ class Transaction extends Component {
     }
   
     render() {
+      let priceDisplay = 'Price';
+      if (this.props.type === 'Sell') {
+        priceDisplay = 'Cost';
+      }
       return(
         <div className="popup transactionScreen">
           <div>
             <h2>{this.props.item.type}</h2>
+            <h3>{priceDisplay}: ${this.props.item.price}</h3>
             <h4>Qty: {this.props.item.qty}</h4>
-            <h3>Price: ${this.props.item.price}</h3>
           </div>
           <form onSubmit={ this.handleFormSubmit }>
             <input type="number" onChange={ this.inputChange } min="0" max={this.props.maxQty}/>
