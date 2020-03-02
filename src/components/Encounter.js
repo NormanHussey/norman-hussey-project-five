@@ -177,7 +177,8 @@ class Encounter extends Component {
                 case 1:
                     // Loot the owner
                     if (probability(0.34)) {
-                        const moneyLooted = getRandomIntInRange(1, 500);
+                        const lootPercent = getRandomIntInRange(1, 25);
+                        const moneyLooted = Math.round(player.money * (lootPercent / 100));
                         player.money += moneyLooted;
                         outcome.text = `
                             ${outcome.text.positive}
@@ -191,11 +192,12 @@ class Encounter extends Component {
                 case 2:
                     // Try to help the owner
                     if (probability(0.49)) {
-                        const rewardMoney = getRandomIntInRange(200, 2000);
-                        player.money += rewardMoney;
+                        const rewardPercent = getRandomIntInRange(1, 75);
+                        const moneyRewarded = Math.round(player.money * (rewardPercent / 100));
+                        player.money += moneyRewarded;
                         outcome.text = `
                             ${outcome.text.positive}
-                            You get $${rewardMoney}.
+                            You get $${moneyRewarded}.
                         `;
                     } else {
                         const percentToSteal = getRandomIntInRange(1, 75);
@@ -258,9 +260,10 @@ class Encounter extends Component {
                 case 1:
                     // Fight off
                     if (probability(0.2)) {
-                        const rewardMoney = getRandomIntInRange(250, 2000);
-                        player.money += rewardMoney;
-                        let rewardText = `You get $${rewardMoney}`;
+                        const rewardPercent = getRandomIntInRange(1, 50);
+                        const moneyRewarded = Math.round(player.money * (rewardPercent / 100));
+                        player.money += moneyRewarded;
+                        let rewardText = `You get $${moneyRewarded}`;
                         if (player.inventorySize < player.maxInventory) {
                             const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
                             const qtyReward = getRandomIntInRange(1, (player.maxInventory - player.inventorySize));
@@ -310,9 +313,10 @@ class Encounter extends Component {
                 case 2:
                     // Help the enemy
                     if (probability(0.5)) {
-                        const rewardMoney = getRandomIntInRange(50, 1000);
-                        player.money += rewardMoney;
-                        let rewardText = `You get $${rewardMoney}`;
+                        const rewardPercent = getRandomIntInRange(1, 50);
+                        const moneyRewarded = Math.round(player.money * (rewardPercent / 100));
+                        player.money += moneyRewarded;
+                        let rewardText = `You get $${moneyRewarded}`;
                         if (player.inventorySize < player.maxInventory) {
                             const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
                             const qtyReward = getRandomIntInRange(1, Math.round((player.maxInventory - player.inventorySize) / 2));
