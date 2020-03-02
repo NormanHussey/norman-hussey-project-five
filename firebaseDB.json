@@ -104,7 +104,9 @@
             "location": "York",
             "inventory": [{
                 "type": "empty"
-            }]
+            }],
+            "armedGuards": 0,
+            "travelCost": 25
         }
     }
 }

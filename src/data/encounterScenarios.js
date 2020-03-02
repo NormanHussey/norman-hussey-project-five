@@ -85,7 +85,7 @@ const encounterScenarios = [
             'They help themselves to your inventory and ride off.',
             {
                 positive: 'You successfully fight them off!',
-                negative: 'They beat you to pulp and plunder your caravan.' 
+                negative: 'They beat you to a pulp and plunder your caravan.' 
             },
             {
                 positive: 'You successfully flee from the gang!',

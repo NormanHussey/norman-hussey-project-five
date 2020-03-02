@@ -70,7 +70,9 @@ class App extends Component {
       location: this.state.countries[countryChoice][0],
       inventory: [{
           "type": "empty"
-      }]
+      }],
+      armedGuards: 0,
+      travelCost: 25
     };
 
     if (guest) {
@@ -293,11 +295,11 @@ class App extends Component {
     });
   }
 
-  travel = (newLocation, travelCost, newCountry = false) => {
+  travel = (newLocation, travelCost, travelDistance, newCountry = false) => {
     this.cancelTransaction();
     const player = {...this.state.player};
     player.money -= travelCost;
-    let daysPassed = (travelCost / 25);
+    let daysPassed = travelDistance;
     const countryToTravel = {...this.state.country};
 
     if (newCountry) {
@@ -399,6 +401,12 @@ class App extends Component {
 
   }
 
+  upgradeCaravan = (player) => {
+    this.setState({
+      player: player
+    });
+  }
+
   quitting = () => {
     this.setState({
       gameStarted: false,
@@ -427,7 +435,7 @@ class App extends Component {
               <div className="headerButtons">
                 <button onClick={ this.toggleMenuOpen }>Menu</button>
               </div>
-              { this.state.menuOpen ? <MainMenu playerName={this.state.player.name} beginGame={this.startingNewGame} countries={Object.keys(this.state.countries)} quit={ this.quitting } close={ this.toggleMenuOpen } /> : null }
+              { this.state.menuOpen ? <MainMenu upgradeCaravan={this.upgradeCaravan} player={this.state.player} beginGame={this.startingNewGame} countries={Object.keys(this.state.countries)} quit={ this.quitting } close={ this.toggleMenuOpen } /> : null }
             </div>
           </header>
           <main>
@@ -445,7 +453,7 @@ class App extends Component {
               { this.state.selling ? <Transaction buyer={ this.state.location } seller={ this.state.player } type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
               { this.state.marketEvent ? <MarketEvent location={this.state.location} close={this.closeMarketEvent} eventInfo={this.state.marketEvent} /> : null}
               { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
-              { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button className="travelButton" onClick={ this.toggleTravelSelection }>Travel</button>}
+              { this.state.traveling ? <TravelSelection player={this.state.player} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button className="travelButton" onClick={ this.toggleTravelSelection }>Travel</button>}
             </div>
           </footer>
         </div>

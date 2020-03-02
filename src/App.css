@@ -319,11 +319,13 @@ select:focus {
   margin: 0 1vmax;
 }
 
-.mainMenu .choices {
+.mainMenu .choices,
+.upgradeMenu .choices {
   flex-direction: column;
 }
 
-.mainMenu .choices button {
+.mainMenu .choices button,
+.upgradeMenu .choices button {
   margin: 1vmax 0;
 }
 

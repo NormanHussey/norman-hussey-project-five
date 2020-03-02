@@ -9,7 +9,6 @@ class MarketEvent extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.eventInfo);
         let eventText = ``;
         if (this.props.eventInfo.type === 'overabundance') {
             eventText = `

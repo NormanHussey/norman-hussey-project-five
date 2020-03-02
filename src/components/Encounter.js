@@ -27,6 +27,8 @@ class Encounter extends Component {
     processPlayerChoice = (choice) => {
         const scenario = this.state.encounters[this.state.currentEncounter];
         const player = this.props.player;
+        const fightProbability = 0.2 * (player.armedGuards + 1);
+        const fleeProbability = 0.33 * (player.armedGuards + 1);
         const allItems = this.props.allItems;
         const outcome = {
             type: 'resolved',
@@ -74,7 +76,7 @@ class Encounter extends Component {
                 case 2:
                     // Try to fight
                     let successfulFight = false;
-                    if (probability(0.2)) {
+                    if (probability(fightProbability)) {
                         successfulFight = true;
                     }
                     if (successfulFight) {
@@ -105,7 +107,7 @@ class Encounter extends Component {
                 case 3:
                     // Try to flee
                     let successfulFlee = false;
-                    if (probability(0.4)) {
+                    if (probability(fleeProbability)) {
                         successfulFlee = true;
                     }
                     if (successfulFlee) {
@@ -259,7 +261,7 @@ class Encounter extends Component {
 
                 case 1:
                     // Fight off
-                    if (probability(0.2)) {
+                    if (probability(fightProbability)) {
                         const rewardPercent = getRandomIntInRange(1, 50);
                         const moneyRewarded = Math.round(player.money * (rewardPercent / 100));
                         player.money += moneyRewarded;

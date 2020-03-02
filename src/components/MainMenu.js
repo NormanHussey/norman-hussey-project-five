@@ -8,7 +8,8 @@ class MainMenu extends Component {
         this.state = {
             startNewGame: false,
             quitGame: false,
-            chooseNewCountry: false
+            chooseNewCountry: false,
+            upgradeScreen: false
         }
     }
 
@@ -37,7 +38,8 @@ class MainMenu extends Component {
         this.setState({
             chooseNewCountry: false,
             startNewGame: false,
-            quitGame: false
+            quitGame: false,
+            upgradeScreen: false
         },
             this.props.close
         );
@@ -48,13 +50,44 @@ class MainMenu extends Component {
         this.props.beginGame(countryChoice);
     }
 
+    toggleUpgradeScreen = () => {
+        this.setState({
+            upgradeScreen: !this.state.upgradeScreen
+        });
+    }
+
+    addInventorySlots = () => {
+        const player = this.props.player;
+        player.money -= 10000;
+        player.maxInventory += 10;
+        this.props.upgradeCaravan(player);
+    }
+
+    hireArmedGuard = () => {
+        const player = this.props.player;
+        player.money -= 5000;
+        player.armedGuards++;
+        player.travelCost = 25 * (player.armedGuards + 1);
+        this.props.upgradeCaravan(player);
+    }
+
+    fireArmedGuard = () => {
+        const player = this.props.player;
+        player.armedGuards--;
+        player.travelCost = 25 * (player.armedGuards + 1);
+        this.props.upgradeCaravan(player);
+    }
+
     render() {
+        const player = this.props.player;
+        let disabled = false;
         return(
             <div>
                 <div className="popup mainMenu">
                     <div className="choices">
                     <button onClick={ this.confirmNewGame }>New Game</button>
                     <button onClick={ this.confirmQuit }>Quit Game</button>
+                    <button onClick={ this.toggleUpgradeScreen }>Manage Caravan</button>
                     <button onClick={ this.closeMenu }>Close Menu</button>
                     </div>
                 </div>
@@ -72,7 +105,7 @@ class MainMenu extends Component {
                 { this.state.quitGame ? 
                 <div className="popup">
                     <h3>Are you sure you want to quit?</h3>
-                    { this.props.playerName === "Nameless Merchant" ? <p>(All of your current progress will be lost)</p> : <p>(Your game is saved)</p>}
+                    { player.name === "Nameless Merchant" ? <p>(All of your current progress will be lost)</p> : <p>(Your game is saved)</p>}
                     <div className="choices">
                         <button onClick={ () => {
                             this.closeMenu();
@@ -82,6 +115,23 @@ class MainMenu extends Component {
                     </div>
                 </div>
                 : null
+                }
+                { this.state.upgradeScreen ?
+                    <div className="popup upgradeMenu">
+                        <div className="choices">
+                            <h3>Your caravan: </h3>
+                            <h4>Inventory Slots: {player.maxInventory}</h4>
+                            <h4>Armed Guards: {player.armedGuards}</h4>
+                            { player.money < 10000 ? disabled = true : disabled = false}
+                            <button disabled={disabled} onClick={this.addInventorySlots}>Add 10 Inventory Slots ($10,000)</button>
+                            { player.money < 5000 ? disabled = true : disabled = false}
+                            <button onClick={this.hireArmedGuard} disabled={disabled}>Hire an Armed Guard ($5,000 + $25/day)</button>
+                            { player.armedGuards < 1 ? disabled = true : disabled = false}
+                            <button onClick={this.fireArmedGuard} disabled={disabled}>Fire an Armed Guard</button>
+                            <button onClick={ this.closeMenu }>Close</button>
+                        </div>
+                    </div>
+                    : null
                 }
                 { this.state.chooseNewCountry ? 
                 <div className="popup">
