@@ -384,7 +384,7 @@ select:focus {
   align-items: center;
   justify-content: center;
   background-color: var(--colPrimary);
-  padding: 1vmax;
+  padding: 2vmax;
 }
 
 .popup form button {

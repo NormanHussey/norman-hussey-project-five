@@ -14,6 +14,7 @@ import Transaction from './components/Transaction';
 import TravelSelection from './components/TravelSelection';
 import ChooseCountry from './components/ChooseCountry';
 import Encounter from './components/Encounter';
+import MarketEvent from './components/MarketEvent';
 
 class App extends Component {
   constructor() {
@@ -39,7 +40,8 @@ class App extends Component {
       chooseNewCountry: false,
       encountersOccurring: 0,
       encounterDays: [],
-      daysTraveling: 0
+      daysTraveling: 0,
+      marketEvent: false
     }
   }
 
@@ -132,7 +134,7 @@ class App extends Component {
     });
   }
 
-  randomizeLocationInventory = () => {
+  randomizeLocationInventory = (eventIsHappening = false) => {
     // Randomly choose how many items will be in the location inventory
     const numberOfItems = getRandomIntInRange(3, this.state.items.length);
 
@@ -147,10 +149,37 @@ class App extends Component {
 
     // Randomly assign prices to each item relative to its base price
     for (let item of newInventory) {
-      const priceModifier = getRandomFloatInRange(0.1, 10.1);
+      const priceModifier = getRandomFloatInRange(0.5, 2);
       item.price = Math.round(item.basePrice * priceModifier);
-      const qty = getRandomIntInRange(10, 500);
+      const qty = getRandomIntInRange(25, 500);
       item.qty = qty;
+    }
+
+    const marketEvent = {};
+    if (eventIsHappening) {
+      const itemIndex = getRandomIntInRangeExclusive(0, newInventory.length);
+      marketEvent.item = newInventory[itemIndex];
+
+      if (probability(0.5)) {
+        marketEvent.type = 'overabundance';
+        const priceModifier = getRandomFloatInRange(0.01, 0.25);
+        newInventory[itemIndex].price = Math.round(marketEvent.item.basePrice * priceModifier);
+        if (newInventory[itemIndex].price < 1) {
+          newInventory[itemIndex].price = 1;
+        }
+        const qty = getRandomIntInRange(500, 999);
+        newInventory[itemIndex].qty = qty;
+      } else {
+        marketEvent.type = 'scarcity';
+        const priceModifier = getRandomFloatInRange(5, 10);
+        newInventory[itemIndex].price = Math.round(marketEvent.item.basePrice * priceModifier);
+        const qty = getRandomIntInRange(1, 20);
+        newInventory[itemIndex].qty = qty;
+      }
+
+      this.setState({
+        marketEvent: marketEvent
+      });
     }
 
     return newInventory;
@@ -261,6 +290,12 @@ class App extends Component {
     });
   }
 
+  closeMarketEvent = () => {
+    this.setState({
+      marketEvent: false
+    });
+  }
+
   travel = (newLocation, travelCost, newCountry = false) => {
     this.cancelTransaction();
     const player = {...this.state.player};
@@ -275,7 +310,10 @@ class App extends Component {
     }
 
     player.location = newLocation.name;
-    newLocation.inventory = this.randomizeLocationInventory();
+
+    const marketEvent = probability(0.25);
+
+    newLocation.inventory = this.randomizeLocationInventory(marketEvent);
 
     const encounterDays = this.randomEncounters(daysPassed);
     const numberOfRandomEncounters = encounterDays.length;
@@ -475,6 +513,7 @@ class App extends Component {
               { this.state.buying ? <Transaction type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
               { this.state.selling ? <Transaction type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
               { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
+              { this.state.marketEvent ? <MarketEvent close={ this.closeMarketEvent } eventInfo={ this.state.marketEvent } /> : null}
               { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button className="travelButton" onClick={ this.toggleTravelSelection }>Travel</button>}
             </div>
           </footer>
