@@ -443,6 +443,10 @@ select:focus {
   font-size: 2vmax;
 }
 
+.marketEvent button {
+  margin: 2vmax 0;
+}
+
 .ornateContainer {
   border: 8px ridge var(--colAccentDark);
   background-color: var(--colSecondary);
@@ -574,6 +578,7 @@ select:focus {
 
   .transactionScreen {
     height: 60vh;
+    top: 20%;
   }
 
   .transactionScreen button {
@@ -597,6 +602,11 @@ select:focus {
   .encounter {
     top: 12.5%;
     height: 75vh;
+  }
+
+  .marketEvent {
+    top: 20%;
+    height: 60vh;
   }
 
   .travelScreen button {

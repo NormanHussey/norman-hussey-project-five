@@ -512,8 +512,8 @@ class App extends Component {
               </div>
               { this.state.buying ? <Transaction buyer={ this.state.player } seller={ this.state.location } type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
               { this.state.selling ? <Transaction buyer={ this.state.location } seller={ this.state.player } type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
+              { this.state.marketEvent ? <MarketEvent location={this.state.location} close={this.closeMarketEvent} eventInfo={this.state.marketEvent} /> : null}
               { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
-              { this.state.marketEvent ? <MarketEvent close={ this.closeMarketEvent } eventInfo={ this.state.marketEvent } /> : null}
               { this.state.traveling ? <TravelSelection playerMoney={this.state.player.money} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button className="travelButton" onClick={ this.toggleTravelSelection }>Travel</button>}
             </div>
           </footer>

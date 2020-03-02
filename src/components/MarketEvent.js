@@ -13,11 +13,11 @@ class MarketEvent extends Component {
         let eventText = ``;
         if (this.props.eventInfo.type === 'overabundance') {
             eventText = `
-                The market has been flooded with cheap ${this.props.eventInfo.item.type}. Prices have bottomed out!
+                The market in ${this.props.location.name} has been flooded with cheap ${this.props.eventInfo.item.type}. Prices have bottomed out!
             `;
         } else {
             eventText = `
-                ${this.props.eventInfo.item.type} has become scarce. The market is paying top dollar for it!
+                ${this.props.eventInfo.item.type} has become scarce in ${this.props.location.name}. The market in is paying top dollar for it!
             `;
         }
         this.setState({
@@ -28,7 +28,7 @@ class MarketEvent extends Component {
     render() {
         return (
             <div className="popup marketEvent">
-                <p>{this.state.eventText}</p>
+                <h4>{this.state.eventText}</h4>
                 <button onClick={ this.props.close }>Continue</button>
             </div>
         );
