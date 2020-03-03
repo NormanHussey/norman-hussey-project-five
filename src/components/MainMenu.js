@@ -231,9 +231,9 @@ class MainMenu extends Component {
                 {
                     this.state.depositScreen ?
                     <div className="popup depositScreen">
-                        <h3>Deposit</h3>
+                        <h3>How much to deposit?</h3>
                         <form onSubmit={ this.depositMoney } action="submit">
-                            <label htmlFor="depositAmount">How much?</label>
+                            <label htmlFor="depositAmount">Max: ${maxDeposit}<span className="sr-only">Enter deposit amount</span></label>
                             <input onChange={ this.moneyInput } type="number" id="depositAmount" min="0" max={maxDeposit} />
                             <button type="submit">Deposit</button>
                         </form>
@@ -244,13 +244,13 @@ class MainMenu extends Component {
                 {
                     this.state.withdrawScreen ?
                     <div className="popup withdrawScreen">
-                        <h3>Withdraw</h3>
+                        <h3>How much to withdraw?</h3>
                         <form onSubmit={ this.withdrawMoney } action="submit">
-                            <label htmlFor="withdrawAmount">How much?</label>
+                            <label htmlFor="withdrawAmount">Max: ${maxWithdraw}<span className="sr-only">Enter withdraw amount</span></label>
                             <input onChange={ this.moneyInput } type="number" id="withdrawAmount" min="0" max={maxWithdraw} />
                             <button type="submit">Withdraw</button>
                         </form>
-                        <button onClick={ this.toggleDepositScreen }>Cancel</button>
+                        <button onClick={ this.toggleWithdrawScreen }>Cancel</button>
                     </div>
                     : null
                 }
