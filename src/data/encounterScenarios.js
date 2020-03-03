@@ -142,7 +142,51 @@ const encounterScenarios = [
             },
             "You continue riding by, refusing to make eye contact, as she stares up at you in despair."
         ]
-    }
+    },
+    {
+        type: 'robbery',
+        text: 'The sound of a horn startles you. When you stop to find its source, tired and hungry soldiers surround you.',
+        options: [
+            'Offer money',
+            'Offer wares',
+            'Try to Fight',
+            'Try to flee'
+        ],
+        outcomes: [
+            "They eagerly take your money and mock salute you as you ride away.",
+            'They grab your offerings and step back from the road to let you pass. You hear them trading with each other as you ride away.',
+            {
+                positive: 'Your horse tramples several men. You fend off the rest successfully!',
+                negative: 'The desperate and desolate soldiers overpower you and take some of your money and property.' 
+            },
+            {
+                positive: 'You charge through the weakened men and escape!',
+                negative: "You are quickly overtaken. To save yourself, you throw money and wares at the men and watch them scramble and fight over the scraps."
+            }
+        ]
+    },
+    {
+        type: 'robbery',
+        text: 'A fallen tree blocks your passage.  You dismount to assess the situation, when a man in green tights and a feather in his hat somersaults in front of you, then makes demands on behalf of the poor.',
+        options: [
+            'Offer a donation',
+            'Offer helpful supplies',
+            'Clock him in the nose',
+            'Avoid the fool'
+        ],
+        outcomes: [
+            "He bows graciously and takes the coin offered.  In return, he pronounces you to be an unsung hero for those who are destitute and beholden to the unfeeling laws of the land.",
+            'The man whistles a cheery tune and several dishevelled people emerge from the forest to see what new items they can use.  As you ride away, they cheer your name in celebration of your generosity.',
+            {
+                positive: 'Startled by your violence, he stumbles backward into the edge of the forest, blood spurting from his nose. A group of disheveled people emerge to assist their fallen hero as you ride away.',
+                negative: 'Grabbing his nose in pain, he shouts to the trees through a mouthful of blood. A mass of disheveled people charges your carriage. They take whatever they can easily find.' 
+            },
+            {
+                positive: 'He wishes you a safe journey and a clear conscience in the face of the dichotomy between the wealthy and the poor.  As you ride away you see a group of disheveled people gather around the man in tights, kicking the ground and sobbing in despair.',
+                negative: "The man whistles an upbeat tune. Suddenly several tights-wearing folk board your carriage from all sides, taking what they can before travel too far from their base."
+            }
+        ]
+    },
 
 
 ];
