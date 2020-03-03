@@ -19,6 +19,7 @@ import MarketEvent from './components/MarketEvent';
 class App extends Component {
   constructor() {
     super();
+    // Initialize state
     this.state = {
       gameStarted: false,
       allPlayers: [],
@@ -42,6 +43,7 @@ class App extends Component {
     }
   }
 
+  // Pull in and store data from firebase
   componentDidMount() {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
@@ -59,6 +61,7 @@ class App extends Component {
 
   }
 
+  // Reset player values to initial state and start a new game
   setupNewGame = ({ userName, password, guest, countryChoice }) => {
     const playersDbRef = firebase.database().ref('players');
     const startingValues = {
@@ -106,6 +109,7 @@ class App extends Component {
     );
   }
 
+  // Load in starting values and begin the game
   beginGame = () => {
     const player = this.state.allPlayers[this.state.userName];
     const countryName = player.country;
@@ -157,11 +161,14 @@ class App extends Component {
       item.qty = qty;
     }
 
+    // Choose random market event
     const marketEvent = {};
     if (eventIsHappening) {
+      // Choose the item to be affected
       const itemIndex = getRandomIntInRangeExclusive(0, newInventory.length);
       marketEvent.item = newInventory[itemIndex];
 
+      // Choose which type of event will occur and set a random price according to that event
       if (probability(0.5)) {
         marketEvent.type = 'overabundance';
         const priceModifier = getRandomFloatInRange(0.1, 0.35);
@@ -188,6 +195,7 @@ class App extends Component {
 
   }
 
+  // When an inventory item is clicked, set it as the selected item, determine the max qty (that can be bought or sold) and set the appropriate state variable to bring up the buying or selling screen
   itemClicked = (owner, item) => {
     if (item.qty > 0 && !this.state.traveling) {
       if (owner === this.state.player) {
@@ -208,6 +216,7 @@ class App extends Component {
     }
   }
 
+  // Process the player's chosen transaction
   processTransaction = (qty) => {
     const selectedItem = this.state.selectedItem;
 
@@ -281,6 +290,7 @@ class App extends Component {
     });
   }
 
+  // Update the player's data in firebase
   updateFirebase = () => {
     const playerDbRef = firebase.database().ref('players');
     playerDbRef.update({
@@ -288,6 +298,7 @@ class App extends Component {
     });
   }
 
+  // Open/close travel screen
   toggleTravelSelection = () => {
     if (this.state.buying || this.state.selling) {
       this.cancelTransaction();
@@ -303,6 +314,7 @@ class App extends Component {
     });
   }
 
+  // Travel to a new location
   travel = (newLocation, travelCost, travelDistance, newCountry = false) => {
     this.cancelTransaction();
     const player = {...this.state.player};
@@ -318,10 +330,13 @@ class App extends Component {
 
     player.location = newLocation.name;
 
+    // Choose whether a market event will happen
     const marketEvent = probability(0.25);
 
+    // Randomize the location inventory (and apply market event if chosen)
     newLocation.inventory = this.randomizeLocationInventory(marketEvent);
 
+    // Choose whether random encounters happen along the trip
     const encounterDays = this.randomEncounters(daysPassed);
     const numberOfRandomEncounters = encounterDays.length;
     if (numberOfRandomEncounters === 0) {
@@ -345,6 +360,7 @@ class App extends Component {
     );
   }
 
+  // Randomly choose whether a random encounter occurs for each travel day
   randomEncounters = (daysPassed) => {
     const encounterDays = [];
     let lastDay = 0;
@@ -357,6 +373,7 @@ class App extends Component {
     return encounterDays;
   }
 
+  // Update the player state and firebase with the result of the encounter
   encounterResult = (player = {...this.state.player}) => {
     this.setState({
       player: player
@@ -365,6 +382,7 @@ class App extends Component {
     );
   }
 
+  // After an encounter, remove it from the encounters array and decrement the encountersOccurring state
   adjustNumberOfEncounters = (numberOfEncounters) => {
     const newEncounterDays = [...this.state.encounterDays];
     const player = {...this.state.player};
@@ -386,12 +404,14 @@ class App extends Component {
     });
   }
 
+  // Open/close menu
   toggleMenuOpen = () => {
     this.setState({
       menuOpen: !this.state.menuOpen
     });
   }
 
+  // Start a new game with the existing account/guest
   startingNewGame = (countryChoice) => {
     let guest = false;
     if (this.state.player.name === "Nameless Merchant") {
@@ -409,12 +429,16 @@ class App extends Component {
 
   }
 
+  // Update the player state and then update it in firebase
   updatePlayer = (player) => {
     this.setState({
       player: player
-    });
+    },
+      this.updateFirebase
+    );
   }
 
+  // Reset all state variables to quit
   quitting = () => {
     this.setState({
       gameStarted: false,

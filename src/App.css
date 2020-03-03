@@ -8,6 +8,7 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
 
+/* Load fonts */
 @font-face {
   font-family: 'compasspro';
   src: url('./assets/fonts/compasspro.woff') format('woff');
@@ -22,6 +23,7 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
   font-style: normal;
 }
 
+/* Initialize variables */
 :root {
   --colPrimary: #6d0d0d;
   --colSecondary: #77360e;
@@ -34,12 +36,54 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
   --fontBody: 'equipmentpro', sans-serif;
 }
 
+/* General Styles */
+
 html {
   font-size: 62.5%;
 }
 
 .App {
   text-align: center;
+}
+
+body {
+  height: 100vh;
+  scrollbar-color: var(--colAccentDark) var(--colSecondary);
+  font-family: var(--fontBody);
+  background-image: url('./assets/medievaltrade.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  letter-spacing: 0.2vmax;
+  cursor: url('./assets/cursors/default.png'), auto;
+}
+
+body::-webkit-scrollbar {
+  width: 11px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--colSecondary);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--colAccentDark) ;
+  border: 3px solid var(--colSecondary);
+}
+
+header {
+  height: 10vh;
+  background-color: var(--colPrimary);
+}
+
+main {
+  height: 70vh;
+  padding: 1vmax 0;
+}
+
+footer {
+  height: 20vh;
+  background-color: var(--colPrimary);
 }
 
 h1,
@@ -83,46 +127,6 @@ option {
 p,
 label {
   color: var(--colOffWhite);
-}
-
-body {
-  height: 100vh;
-  scrollbar-color: var(--colAccentDark) var(--colSecondary);
-  font-family: var(--fontBody);
-  background-image: url('./assets/medievaltrade.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  letter-spacing: 0.2vmax;
-  cursor: url('./assets/cursors/default.png'), auto;
-}
-
-body::-webkit-scrollbar {
-  width: 11px;
-}
-
-body::-webkit-scrollbar-track {
-  background: var(--colSecondary);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: var(--colAccentDark) ;
-  border: 3px solid var(--colSecondary);
-}
-
-header {
-  height: 10vh;
-  background-color: var(--colPrimary);
-}
-
-main {
-  height: 70vh;
-  padding: 1vmax 0;
-}
-
-footer {
-  height: 20vh;
-  background-color: var(--colPrimary);
 }
 
 button {
@@ -188,6 +192,7 @@ select:focus {
   margin: 0 auto;
 }
 
+/* Game header styles */
 .gameHeader {
   height: 100%;
   display: flex;
@@ -213,6 +218,7 @@ select:focus {
   justify-content: flex-end;
 }
 
+/* Game main styles */
 .gameMain {
   display: flex;
   justify-content: center;
@@ -220,6 +226,7 @@ select:focus {
   height: 100%;
 }
 
+/* Game footer styles */
 .gameFooter {
   height: 100%;
   display: flex;
@@ -243,46 +250,7 @@ select:focus {
   font-family: var(--fontHeader);
 }
 
-.inventory {
-  width: 50%;
-  height: 100%;
-  overflow: auto;
-}
-
-.inventory:first-of-type {
-  direction: rtl;
-}
-
-.inventory:first-of-type > * {
-  direction: ltr;
-}
-
-.inventoryItem {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  color: var(--colOffWhite);
-  border: 4px outset var(--colAccentDark);
-  margin: 4px 0;
-  background-color: var(--colPrimary);
-  transition: all 0.3s;
-}
-
-.inventoryItem:hover,
-.inventoryItem:focus {
-  background-color: var(--colOffBlack);
-  border-color: var(--colAccentLight);
-}
-
-.inventoryItem:hover p,
-.inventoryItem:focus p {
-  color: var(--colAccentLight);
-}
-
-.inventoryItem > * {
-  flex-basis: calc(100% / 3);
-}
-
+/* Start screen styles */
 .startScreen {
   width: 100vw;
   height: 100vh;
@@ -369,6 +337,7 @@ select:focus {
   margin: 1.5vmax 0;
 }
 
+/* Popup styles */
 .popup {
   width: 75vw;
   height: 75vh;
@@ -392,10 +361,6 @@ select:focus {
 
 .popup .countryChoiceForm button {
   width: inherit;
-}
-
-.booleanChoices {
-  display: flex;
 }
 
 .travelScreen,
@@ -511,11 +476,50 @@ select:focus {
   height: 100%;
 }
 
+/* Inventory styles */
+
 .inventory {
-  width: 100%;
   background-color: var(--colSecondary);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
+.inventory:first-of-type {
+  direction: rtl;
+}
+
+.inventory:first-of-type > * {
+  direction: ltr;
+}
+
+.inventoryItem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: var(--colOffWhite);
+  border: 4px outset var(--colAccentDark);
+  margin: 4px 0;
+  background-color: var(--colPrimary);
+  transition: all 0.3s;
+}
+
+.inventoryItem:hover,
+.inventoryItem:focus {
+  background-color: var(--colOffBlack);
+  border-color: var(--colAccentLight);
+}
+
+.inventoryItem:hover p,
+.inventoryItem:focus p {
+  color: var(--colAccentLight);
+}
+
+.inventoryItem > * {
+  flex-basis: calc(100% / 3);
+}
+
+/* Section specific styles */
 .darkContainer {
   background-color: var(--colOffBlack);
   border: 4px ridge var(--colAccentDark);
@@ -556,6 +560,8 @@ select:focus {
 .withdrawScreen form button {
   width: inherit;
 }
+
+/* Media queries */
 
 @media (max-width: 800px) {
 
