@@ -142,7 +142,7 @@ class App extends Component {
 
   randomizeLocationInventory = (eventIsHappening = false) => {
     // Randomly choose how many items will be in the location inventory
-    const numberOfItems = getRandomIntInRange(3, this.state.items.length);
+    const numberOfItems = getRandomIntInRange(3, 10);
 
     // Randomly choose the items to be added to the location inventory
     const itemsArrayCopy = [...this.state.items];

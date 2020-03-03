@@ -45,14 +45,59 @@
             "basePrice": 5
         },
         {
+            "type": "Barley",
+            "qty": 0,
+            "basePrice": 5
+        },
+        {
+            "type": "Salt",
+            "qty": 0,
+            "basePrice": 5
+        },
+        {
+            "type": "Fish",
+            "qty": 0,
+            "basePrice": 5
+        },
+        {
+            "type": "Ale",
+            "qty": 0,
+            "basePrice": 5
+        },
+        {
+            "type": "Sugar",
+            "qty": 0,
+            "basePrice": 5
+        },
+        {
+            "type": "Honey",
+            "qty": 0,
+            "basePrice": 10
+        },
+        {
+            "type": "Mead",
+            "qty": 0,
+            "basePrice": 10
+        },
+        {
+            "type": "Wool",
+            "qty": 0,
+            "basePrice": 10
+        },
+        {
             "type": "Wood",
             "qty": 0,
             "basePrice": 10
         },
         {
-            "type": "Silk",
+            "type": "Fruit",
             "qty": 0,
-            "basePrice": 50
+            "basePrice": 10
+        },
+        {
+            "type": "Dye",
+            "qty": 0,
+            "basePrice": 25
         },
         {
             "type": "Spice",
@@ -60,34 +105,79 @@
             "basePrice": 25
         },
         {
+            "type": "Leather",
+            "qty": 0,
+            "basePrice": 25
+        },
+        {
+            "type": "Coal",
+            "qty": 0,
+            "basePrice": 25
+        },
+        {
             "type": "Wine",
-            "qty": 0,
-            "basePrice": 40
-        },
-        {
-            "type": "Gold",
-            "qty": 0,
-            "basePrice": 200
-        },
-        {
-            "type": "Iron",
             "qty": 0,
             "basePrice": 50
         },
         {
+            "type": "Fur",
+            "qty": 0,
+            "basePrice": 50
+        },
+        {
+            "type": "Tin",
+            "qty": 0,
+            "basePrice": 50
+        },
+        {
+            "type": "Silk",
+            "qty": 0,
+            "basePrice": 75
+        },
+        {
+            "type": "Iron",
+            "qty": 0,
+            "basePrice": 75
+        },
+        {
+            "type": "Steel",
+            "qty": 0,
+            "basePrice": 150
+        },
+        {
+            "type": "Bronze",
+            "qty": 0,
+            "basePrice": 250
+        },
+        {
             "type": "Silver",
             "qty": 0,
-            "basePrice": 100
+            "basePrice": 500
         },
         {
-            "type": "Cotton",
+            "type": "Gold",
             "qty": 0,
-            "basePrice": 10
+            "basePrice": 1000
         },
         {
-            "type": "Salt",
+            "type": "Diamond",
             "qty": 0,
-            "basePrice": 5
+            "basePrice": 1500
+        },
+        {
+            "type": "Sapphire",
+            "qty": 0,
+            "basePrice": 2000
+        },
+        {
+            "type": "Emerald",
+            "qty": 0,
+            "basePrice": 3500
+        },
+        {
+            "type": "Ruby",
+            "qty": 0,
+            "basePrice": 5000
         }
 
     ],
