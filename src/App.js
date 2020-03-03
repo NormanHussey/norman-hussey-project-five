@@ -164,7 +164,7 @@ class App extends Component {
 
       if (probability(0.5)) {
         marketEvent.type = 'overabundance';
-        const priceModifier = getRandomFloatInRange(0.01, 0.25);
+        const priceModifier = getRandomFloatInRange(0.1, 0.35);
         newInventory[itemIndex].price = Math.round(marketEvent.item.basePrice * priceModifier);
         if (newInventory[itemIndex].price < 1) {
           newInventory[itemIndex].price = 1;
@@ -173,7 +173,7 @@ class App extends Component {
         newInventory[itemIndex].qty = qty;
       } else {
         marketEvent.type = 'scarcity';
-        const priceModifier = getRandomFloatInRange(5, 10);
+        const priceModifier = getRandomFloatInRange(3, 6);
         newInventory[itemIndex].price = Math.round(marketEvent.item.basePrice * priceModifier);
         const qty = getRandomIntInRange(1, 20);
         newInventory[itemIndex].qty = qty;
