@@ -478,6 +478,15 @@ select:focus {
   align-items: center;
 }
 
+.startScreen .howToPlay {
+  width: 75vw;
+  height: 90vh;
+}
+
+.startScreen .howToPlay button {
+  margin: 0 auto;
+}
+
 .startNewGame .ornateContainer p {
   margin: 0;
 }
