@@ -159,6 +159,10 @@ class Encounter extends Component {
                             let playerHasItem = false;
                             player.inventory.forEach((item)=> {
                                 if (item.type === lootedItem.type) {
+                                    const previousPrice = item.price;
+                                    const previousQty = item.qty;
+                                    const averageWeightedCost = Math.round((previousPrice * previousQty) / (previousQty + lootedItem.qty));
+                                    item.price = averageWeightedCost;
                                     item.qty += lootedItem.qty;
                                     playerHasItem = true;
                                 }
@@ -232,6 +236,10 @@ class Encounter extends Component {
                             let playerHasItem = false;
                             player.inventory.forEach((item)=> {
                                 if (item.type === rewardedItem.type) {
+                                    const previousPrice = item.price;
+                                    const previousQty = item.qty;
+                                    const averageWeightedCost = Math.round((previousPrice * previousQty) / (previousQty + rewardedItem.qty));
+                                    item.price = averageWeightedCost;
                                     item.qty += rewardedItem.qty;
                                     playerHasItem = true;
                                 }
@@ -276,6 +284,10 @@ class Encounter extends Component {
                             let playerHasItem = false;
                             player.inventory.forEach((item)=> {
                                 if (item.type === rewardedItem.type) {
+                                    const previousPrice = item.price;
+                                    const previousQty = item.qty;
+                                    const averageWeightedCost = Math.round((previousPrice * previousQty) / (previousQty + rewardedItem.qty));
+                                    item.price = averageWeightedCost;
                                     item.qty += rewardedItem.qty;
                                     playerHasItem = true;
                                 }
@@ -329,6 +341,10 @@ class Encounter extends Component {
                             let playerHasItem = false;
                             player.inventory.forEach((item)=> {
                                 if (item.type === rewardedItem.type) {
+                                    const previousPrice = item.price;
+                                    const previousQty = item.qty;
+                                    const averageWeightedCost = Math.round((previousPrice * previousQty) / (previousQty + rewardedItem.qty));
+                                    item.price = averageWeightedCost;
                                     item.qty += rewardedItem.qty;
                                     playerHasItem = true;
                                 }
