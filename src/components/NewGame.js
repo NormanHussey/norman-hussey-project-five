@@ -74,8 +74,8 @@ class NewGame extends Component {
                             <h3>Create an account:</h3>
                             <p>(An account will save your game automatically)</p>
                             <form onSubmit={ this.createNewAccount } action="submit" className="newGameForm">
-                                <label htmlFor="newUserName">Choose your user name: </label>
-                                <input onChange={ this.enteringUserName } type="text" name="newUserName" id="newUserName" minLength="2" required />
+                                <label htmlFor="newUserName">Choose your user name (alphanumberic characters only): </label>
+                                <input onChange={ this.enteringUserName } type="text" name="newUserName" id="newUserName" minLength="2" pattern="^[a-zA-Z0-9_]*$" required />
                                 { !this.state.uniqueUserName ? <p>Username already exists</p> : null }
                                 <label htmlFor="newPassword">Choose a password (at least 4 characters): </label>
                                 <input onChange={ this.enteringPassword } type="password" name="newPassword" id="newPassword" minLength="4" required />

@@ -393,7 +393,7 @@ select:focus {
 }
 
 .popup .countryChoiceForm button {
-  width: 50%;
+  width: inherit;
 }
 
 .booleanChoices {

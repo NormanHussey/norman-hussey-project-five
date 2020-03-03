@@ -215,7 +215,12 @@ class App extends Component {
     player.inventory.forEach((item) => {
       if (item.type === selectedItem.type) {
         if (this.state.buying) {
+          const previousPrice = item.price;
+          const previousQty = item.qty;
+          const currentPrice = selectedItem.price;
+          const averageWeightedCost = Math.round(((previousPrice * previousQty) + (currentPrice * qty)) / (previousQty + qty));
           item.qty += qty;
+          item.price = averageWeightedCost;
           player.inventorySize += qty;
         } else {
           item.qty -= qty;
