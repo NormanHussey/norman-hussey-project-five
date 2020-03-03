@@ -94,6 +94,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   letter-spacing: 0.2vmax;
+  cursor: url('./assets/cursors/default.png'), auto;
 }
 
 body::-webkit-scrollbar {
@@ -134,6 +135,11 @@ button {
   transition: all 0.3s;
 }
 
+button,
+.inventoryItem {
+  cursor: url('./assets/cursors/point.png'), auto;
+}
+
 button:hover,
 button:focus {
   color: var(--colPrimary);
@@ -158,6 +164,7 @@ input {
   border: 4px ridge var(--colPrimary);
   transition: all 0.3s;
   font-size: 2vmax;
+  cursor: url('./assets/cursors/select.png'), auto;
 }
 
 input:focus {
