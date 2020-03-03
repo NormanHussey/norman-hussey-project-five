@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ChooseCountry from './ChooseCountry';
+import getRandomIntInRange, { getRandomFloatInRange } from '../functions/randomizers';
 
 class MainMenu extends Component {
     constructor() {
@@ -15,7 +16,10 @@ class MainMenu extends Component {
             withdrawScreen: false,
             moneyAmount: 0,
             bankIndex: 0,
-            accountBalance: 0
+            accountBalance: 0,
+            interestRate: 0,
+            maxLoanAmount: 0,
+            lastVisit: 0
         }
     }
 
@@ -23,18 +27,29 @@ class MainMenu extends Component {
         const player = this.props.player;
         let bankFound = false;
         let accountBalance = 0;
-
+        let interestRate = 0;
+        let maxLoanAmount = 0;
         player.banks.forEach((town, index) => {
             if (town.name === player.location) {
+                interestRate = town.interestRate;
+                const newBalance = Math.round((town.balance * town.interestRate * (player.day - town.lastVisit)));
+                town.balance += newBalance;
                 accountBalance = town.balance;
+                maxLoanAmount = town.maxLoanAmount;
                 bankFound = index;
             }
         });
 
         if (!bankFound) {
+            const unRoundedInterestRate = getRandomFloatInRange(0.001, 0.025);
+            interestRate = Math.round((unRoundedInterestRate + Number.EPSILON) * 1000) / 1000;
+            maxLoanAmount = getRandomIntInRange(1000, 10000);
             player.banks.push({
                 name: player.location,
                 balance: accountBalance, 
+                interestRate: interestRate,
+                maxLoanAmount: maxLoanAmount,
+                lastVisit: player.day
             });
             bankFound = player.banks.length - 1;
             this.props.updatePlayer(player);
@@ -42,7 +57,10 @@ class MainMenu extends Component {
 
         this.setState({
             bankIndex: bankFound,
-            accountBalance: accountBalance
+            accountBalance: accountBalance,
+            interestRate: interestRate,
+            maxLoanAmount: maxLoanAmount,
+            lastVisit: player.day
         });
     }
 
@@ -174,7 +192,11 @@ class MainMenu extends Component {
         const player = this.props.player;
         let disabled = false;
         const maxDeposit = player.money;
-        const maxWithdraw = this.state.accountBalance;
+        let maxWithdraw = this.state.accountBalance + this.state.maxLoanAmount;
+        if (maxWithdraw < 0) {
+            maxWithdraw = 0;
+        }
+        const interestRateToDisplay = (this.state.interestRate * 100).toFixed(2);
 
         return(
             <div>
@@ -216,7 +238,9 @@ class MainMenu extends Component {
                     this.state.bankScreen ?
                     <div className="popup bank">
                         <h3>Bank of {player.location}</h3>
-                        <h4>Your account:</h4>
+                        <h4>Interest Rate: {interestRateToDisplay} %</h4>
+                        <h4>Maximum Loan: ${this.state.maxLoanAmount}</h4>
+                        <h4>Your balance:</h4>
                         <div className="darkContainer bankBalance">
                             <h3>${this.state.accountBalance}</h3>
                         </div>

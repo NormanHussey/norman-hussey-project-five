@@ -52,7 +52,7 @@ class TravelSelection extends Component {
         
         return(
             <div className="popup travelScreen">
-                <h3>Travel Cost: ${player.travelCost} / day</h3>
+                <h4>Travel Cost: ${player.travelCost} / day</h4>
                 <div className="travelDestinations"> 
                     <button key={previousCountry + travelCostToPreviousCountry} onClick={
                         () => { this.props.travel(previousCountryLocation, travelCostToPreviousCountry, travelTimeToPreviousCountry, previousCountry) }
