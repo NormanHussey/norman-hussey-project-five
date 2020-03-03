@@ -72,7 +72,10 @@ class App extends Component {
           "type": "empty"
       }],
       armedGuards: 0,
-      travelCost: 25
+      travelCost: 25,
+      banks: [{
+        "name": false
+      }]
     };
 
     if (guest) {
@@ -406,7 +409,7 @@ class App extends Component {
 
   }
 
-  upgradeCaravan = (player) => {
+  updatePlayer = (player) => {
     this.setState({
       player: player
     });
@@ -440,7 +443,7 @@ class App extends Component {
               <div className="headerButtons">
                 <button onClick={ this.toggleMenuOpen }>Menu</button>
               </div>
-              { this.state.menuOpen ? <MainMenu upgradeCaravan={this.upgradeCaravan} player={this.state.player} beginGame={this.startingNewGame} countries={Object.keys(this.state.countries)} quit={ this.quitting } close={ this.toggleMenuOpen } /> : null }
+              { this.state.menuOpen ? <MainMenu updatePlayer={this.updatePlayer} player={this.state.player} beginGame={this.startingNewGame} countries={Object.keys(this.state.countries)} quit={ this.quitting } close={ this.toggleMenuOpen } /> : null }
             </div>
           </header>
           <main>

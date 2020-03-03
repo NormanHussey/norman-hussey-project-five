@@ -106,7 +106,10 @@
                 "type": "empty"
             }],
             "armedGuards": 0,
-            "travelCost": 25
+            "travelCost": 25,
+            "banks": [{
+                "name": false
+            }]
         }
     }
 }

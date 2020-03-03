@@ -531,6 +531,36 @@ select:focus {
   color: var(--colAccentLight);
 }
 
+.bankBalance {
+  margin: 1vmax 0;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bank .choices {
+  margin: 1vmax 0;
+}
+
+.depositScreen form,
+.withdrawScreen form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.depositScreen form > *,
+.withdrawScreen form > * {
+  margin: 1vmax 0;
+}
+
+.depositScreen form button,
+.withdrawScreen form button {
+  width: inherit;
+}
+
 @media (max-width: 800px) {
 
   .wrapper {
