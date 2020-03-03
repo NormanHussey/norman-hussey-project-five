@@ -15,6 +15,7 @@ import Transaction from './components/Transaction';
 import TravelSelection from './components/TravelSelection';
 import Encounter from './components/Encounter';
 import MarketEvent from './components/MarketEvent';
+import DebtCollector from './components/DebtCollector';
 
 class App extends Component {
   constructor() {
@@ -39,7 +40,8 @@ class App extends Component {
       encountersOccurring: 0,
       encounterDays: [],
       daysTraveling: 0,
-      marketEvent: false
+      marketEvent: false,
+      debtCollectorPursuing: false
     }
   }
 
@@ -72,12 +74,16 @@ class App extends Component {
       country: countryChoice,
       location: this.state.countries[countryChoice][0],
       inventory: [{
-          "type": "empty"
+          type: "empty"
       }],
       armedGuards: 0,
       travelCost: 25,
       banks: [{
-        "name": false
+        name: false
+      }],
+      debts: [{
+        name: false,
+        debtAmount: 0
       }]
     };
 
@@ -305,6 +311,7 @@ class App extends Component {
     }
     this.setState({
       traveling: !this.state.traveling,
+      menuOpen: false
     });
   }
 
@@ -347,6 +354,8 @@ class App extends Component {
       daysPassed -= encounterDays[0];
     }
 
+    const debtCollectorPursuing = this.checkForDebtCollectors();
+
     this.setState({
       country: countryToTravel,
       location: newLocation,
@@ -354,10 +363,32 @@ class App extends Component {
       player: player,
       encountersOccurring: numberOfRandomEncounters,
       encounterDays: encounterDays,
-      daysTraveling: daysPassed
+      daysTraveling: daysPassed,
+      debtCollectorPursuing: debtCollectorPursuing
     },
       this.updateFirebase
     );
+  }
+
+  checkForDebtCollectors = () => {
+    const player = this.state.player;
+    let debtCollectorPursuing = false;
+    if (player.debts.length > 1) {
+      const collectorProbability = player.debts.length / 10;
+      if (probability(collectorProbability)) {
+        const overdueDebts = [];
+        player.debts.forEach((bank)=> {
+          if (player.day - bank.dayBorrowed > 10) {
+            overdueDebts.push(bank);
+          }
+        });
+        if (overdueDebts.length > 0) {
+          const randomCollector = getRandomIntInRangeExclusive(0, overdueDebts.length);
+          debtCollectorPursuing = overdueDebts[randomCollector];
+        }
+      }
+    }
+    return debtCollectorPursuing;
   }
 
   // Randomly choose whether a random encounter occurs for each travel day
@@ -406,8 +437,18 @@ class App extends Component {
 
   // Open/close menu
   toggleMenuOpen = () => {
+    if (this.state.buying || this.state.selling) {
+      this.cancelTransaction();
+    }
     this.setState({
-      menuOpen: !this.state.menuOpen
+      menuOpen: !this.state.menuOpen,
+      traveling: false
+    });
+  }
+
+  closeDebtCollector = () => {
+    this.setState({
+      debtCollectorPursuing: false
     });
   }
 
@@ -484,6 +525,7 @@ class App extends Component {
               { this.state.buying ? <Transaction buyer={ this.state.player } seller={ this.state.location } type={'Buy'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.maxQty}/> : null }
               { this.state.selling ? <Transaction buyer={ this.state.location } seller={ this.state.player } type={'Sell'} item={this.state.selectedItem} cancel={this.cancelTransaction} transactionClicked={this.processTransaction} maxQty={this.state.selectedItem.qty}/> : null }
               { this.state.marketEvent ? <MarketEvent location={this.state.location} close={this.closeMarketEvent} eventInfo={this.state.marketEvent} /> : null}
+              { this.state.debtCollectorPursuing ? <DebtCollector close={this.closeDebtCollector} player={this.state.player} updatePlayer={this.updatePlayer} bank={this.state.debtCollectorPursuing} /> : null }
               { this.state.encountersOccurring ? <Encounter allItems={this.state.items} adjustNumberOfEncounters={this.adjustNumberOfEncounters} numberOfEncounters={this.state.encountersOccurring} player={this.state.player} encounterResult={this.encounterResult} /> : null }
               { this.state.traveling ? <TravelSelection player={this.state.player} locations={this.state.country.locations} currentLocation={this.state.player.location} countries={this.state.countries} currentCountry={this.state.country.name} cancel={this.toggleTravelSelection} travel={this.travel}/> : <button className="travelButton" onClick={ this.toggleTravelSelection }>Travel</button>}
             </div>

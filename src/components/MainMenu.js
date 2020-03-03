@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import ChooseCountry from './ChooseCountry';
 import getRandomIntInRange, { getRandomFloatInRange } from '../functions/randomizers';
+import removeFromArray from '../functions/removeFromArray';
 
 class MainMenu extends Component {
     constructor() {
@@ -32,8 +33,8 @@ class MainMenu extends Component {
         player.banks.forEach((town, index) => {
             if (town.name === player.location) {
                 interestRate = town.interestRate;
-                const newBalance = Math.round((town.balance * town.interestRate * (player.day - town.lastVisit)));
-                town.balance += newBalance;
+                const interestAccrued = Math.round((town.balance * town.interestRate * (player.day - town.lastVisit)));
+                town.balance += interestAccrued;
                 accountBalance = town.balance;
                 maxLoanAmount = town.maxLoanAmount;
                 bankFound = index;
@@ -160,8 +161,21 @@ class MainMenu extends Component {
         e.preventDefault();
         const player = this.props.player;
         const depositAmount = this.state.moneyAmount;
-        player.banks[this.state.bankIndex].balance += depositAmount;
+        const currentBank = player.banks[this.state.bankIndex];
+        currentBank.balance += depositAmount;
         player.money -= depositAmount;
+        let debtToBeRemoved = false;
+        player.debts.forEach((bank) => {
+            if (bank.name === currentBank.name) {
+                bank.debtAmount = currentBank.balance;
+                if (bank.debtAmount >= 0) {
+                    debtToBeRemoved = bank;
+                }
+            }
+        });
+        if (debtToBeRemoved) {
+            removeFromArray(debtToBeRemoved, player.debts);
+        }
         this.props.updatePlayer(player);
         this.setState({
             accountBalance: this.state.accountBalance + depositAmount,
@@ -176,8 +190,29 @@ class MainMenu extends Component {
         e.preventDefault();
         const player = this.props.player;
         const withdrawAmount = this.state.moneyAmount;
-        player.banks[this.state.bankIndex].balance -= withdrawAmount;
+        const currentBank = player.banks[this.state.bankIndex];
+        currentBank.balance -= withdrawAmount;
         player.money += withdrawAmount;
+        if (currentBank.balance < 0) {
+            let bankFound = false;
+            player.debts.forEach((bank)=> {
+                if (bank.name === currentBank.name) {
+                    bank.debtAmount = currentBank.balance;
+                    bank.lastVisit = player.day;
+                    bankFound = true;
+                }
+            });
+            if (!bankFound) {
+                const newDebt = {
+                    name: currentBank.name,
+                    debtAmount: currentBank.balance,
+                    interestRate: currentBank.interestRate,
+                    dayBorrowed: player.day,
+                    lastVisit: player.day
+                };
+                player.debts.push(newDebt);
+            }
+        }
         this.props.updatePlayer(player);
         this.setState({
             accountBalance: this.state.accountBalance - withdrawAmount,

@@ -198,7 +198,11 @@
             "armedGuards": 0,
             "travelCost": 25,
             "banks": [{
-                "name": false
+                "name": "empty"
+            }],
+            "debts": [{
+                "name": "empty",
+                "debtAmount": 0
             }]
         }
     }

@@ -402,12 +402,14 @@ select:focus {
   margin: 1vmax 0;
 }
 
-.encounter .choices {
+.encounter .choices,
+.debtCollector .choices {
   flex-direction: column;
   align-items: stretch;
 }
 
-.encounter p {
+.encounter p,
+.debtCollector p {
   font-size: 2vmax;
 }
 
