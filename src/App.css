@@ -161,7 +161,7 @@ button:disabled {
 input {
   padding: 0.5vmax;
   background-color: var(--colOffWhite);
-  border: 4px ridge var(--colPrimary);
+  border: 4px ridge var(--colSecondary);
   transition: all 0.3s;
   font-size: 2vmax;
   cursor: url('./assets/cursors/select.png'), auto;
@@ -299,15 +299,6 @@ select:focus {
 .startScreen h1 {
   color: var(--colAccentLight);
   text-shadow: 2px 2px 2px var(--colOffBlack), -2px -2px 2px var(--colOffBlack), -2px 2px 2px var(--colOffBlack), 2px -2px 2px var(--colOffBlack);
-}
-
-.startScreen button {
-  border-color: var(--colPrimary);
-}
-
-.startScreen button:hover,
-.startScreen button:focus {
-  border-color: var(--colOffWhite);
 }
 
 .startScreen .wrapper {
@@ -461,7 +452,7 @@ select:focus {
 
 .ornateContainer {
   border: 8px ridge var(--colAccentDark);
-  background-color: var(--colSecondary);
+  background-color: var(--colPrimary);
   padding: 1vmax;
 }
 
@@ -518,6 +509,11 @@ select:focus {
 
 .popup .ornateContainer form {
   height: 100%;
+}
+
+.inventory {
+  width: 100%;
+  background-color: var(--colSecondary);
 }
 
 .darkContainer {
@@ -589,10 +585,6 @@ select:focus {
 
   .gameMain {
     flex-direction: column;
-  }
-
-  .inventory {
-    width: 100%;
   }
 
   .gameFooter {
