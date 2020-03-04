@@ -237,10 +237,10 @@ class MainMenu extends Component {
             <div>
                 <div className="popup mainMenu">
                     <div className="choices">
+                    <button onClick={ this.toggleUpgradeScreen }>Manage Caravan</button>
+                    <button onClick={ this.toggleBankScreen }>Local Bank</button>
                     <button onClick={ this.confirmNewGame }>New Game</button>
                     <button onClick={ this.confirmQuit }>Quit Game</button>
-                    <button onClick={ this.toggleBankScreen }>Local Bank</button>
-                    <button onClick={ this.toggleUpgradeScreen }>Manage Caravan</button>
                     <button onClick={ this.closeMenu }>Close Menu</button>
                     </div>
                 </div>

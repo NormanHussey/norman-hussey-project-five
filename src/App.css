@@ -446,6 +446,11 @@ select:focus {
 .startScreen .howToPlay {
   width: 75vw;
   height: 90vh;
+  padding: 1vmax;
+}
+
+.instructions {
+  overflow: auto;
 }
 
 .startScreen .howToPlay button {
