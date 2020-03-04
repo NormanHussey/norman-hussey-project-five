@@ -64,11 +64,14 @@ class StartScreen extends Component {
                             <h3>Market</h3>
                             <p>Click items in your inventory to sell them and click items in the town's inventory to buy them. It's as simple as that.</p>
                             <h3>Travel</h3>
-                            <p>Use the travel button to take you around Europe but be mindful of travel expenses. You cannot travel to a place unless you can afford the trip. Time only passes when you travel and scenarios of all kinds can happen along the way. </p>
+                            <p>Use the travel button to take you around Europe but be mindful of the expense. You cannot travel to a place unless you can afford the trip. Time only passes while traveling and scenarios of all kinds can happen along the way. </p>
                             <h3>Caravan</h3>
-                            <p>You can manage your caravan from the menu screen. You can purchase extra inventory slots or hire and fire armed guards to aid you in times of need. Armed guards will increase your likelihood of winning a fight or avoiding one.</p>
+                            <p>Manage your caravan from the menu screen. You can purchase extra inventory slots or hire and fire armed guards to aid you in times of need. Armed guards will increase your likelihood of winning a fight or avoiding one.</p>
                             <h3>Banks</h3>
-                            <p>Banks can be your saviour or your nemesis so use them wisely. Any money deposited in a bank is safe from the dangers of the road and will even accrue interest for you. Banks can also help you in times of need by allowing you to borrow money from them. Borrowed money will also accrue interest though so be mindful of your debts. After 10 days of unpaid debts, the banks will send a debt collector after you who may turn up unexpectedly along the road. If you refuse to pay the collector, he may take more than just your debt. Also note that all banks work independently so if you make a deposit or take out a loan then you'll have to return to that town to get your money or pay your debt. Similarly, paying the debt collector from one town won't stop other towns from sending their own collectors after you.</p>
+                            <p>Deposit money in a bank to keep it safe from the dangers of the road. It will accrue interest for you over time.</p>
+                            <p>Borrow money from a bank by withdrawing more than you have. It will also accrue interest so be mindful of your debts.</p>
+                            <p>After 10 days of debt, banks will send a debt collector after you who may turn up unexpectedly along the road. If you refuse to pay the collector, he may take more than just your debt.</p>
+                            <p>Banks work independently from one another so it's up to you to keep track of where you've put your money.</p>
                         </div>
                         <button onClick={ this.backToMainMenu }>Main Menu</button>
                     </div>
