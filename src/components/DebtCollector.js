@@ -164,6 +164,7 @@ class DebtCollector extends Component {
         player.banks.forEach((bank) => {
             if (bank.name === currentBank.name) {
                 bank.balance = currentBank.debtAmount;
+                bank.lastVisit = player.day;
             }
         });
         this.props.updatePlayer(player);

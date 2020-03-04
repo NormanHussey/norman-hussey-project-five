@@ -567,6 +567,17 @@ select:focus {
   width: inherit;
 }
 
+.ledgerItemList {
+  width: 100%;
+  height: 100%;
+  padding: 1vmax;
+  overflow: auto;
+}
+
+.ledgerItem > * {
+  margin: 1vmax 0;
+}
+
 /* Media queries */
 
 @media (max-width: 800px) {

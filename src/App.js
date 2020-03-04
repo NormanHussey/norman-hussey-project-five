@@ -79,10 +79,10 @@ class App extends Component {
       armedGuards: 0,
       travelCost: 25,
       banks: [{
-        name: false
+        name: "empty"
       }],
       debts: [{
-        name: false,
+        name: "empty",
         debtAmount: 0
       }]
     };
@@ -161,7 +161,7 @@ class App extends Component {
 
     // Randomly assign prices to each item relative to its base price
     for (let item of newInventory) {
-      const priceModifier = getRandomFloatInRange(0.5, 2);
+      const priceModifier = getRandomFloatInRange(0.5, 1.5);
       item.price = Math.round(item.basePrice * priceModifier);
       const qty = getRandomIntInRange(25, 500);
       item.qty = qty;
@@ -177,7 +177,7 @@ class App extends Component {
       // Choose which type of event will occur and set a random price according to that event
       if (probability(0.5)) {
         marketEvent.type = 'overabundance';
-        const priceModifier = getRandomFloatInRange(0.1, 0.35);
+        const priceModifier = getRandomFloatInRange(0.1, 0.3);
         newInventory[itemIndex].price = Math.round(marketEvent.item.basePrice * priceModifier);
         if (newInventory[itemIndex].price < 1) {
           newInventory[itemIndex].price = 1;
@@ -186,7 +186,7 @@ class App extends Component {
         newInventory[itemIndex].qty = qty;
       } else {
         marketEvent.type = 'scarcity';
-        const priceModifier = getRandomFloatInRange(3, 6);
+        const priceModifier = getRandomFloatInRange(2.5, 5);
         newInventory[itemIndex].price = Math.round(marketEvent.item.basePrice * priceModifier);
         const qty = getRandomIntInRange(1, 20);
         newInventory[itemIndex].qty = qty;

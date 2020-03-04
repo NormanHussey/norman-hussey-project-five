@@ -8,6 +8,7 @@ class MainMenu extends Component {
     constructor() {
         super();
         this.state = {
+            player: {},
             startNewGame: false,
             quitGame: false,
             chooseNewCountry: false,
@@ -15,6 +16,7 @@ class MainMenu extends Component {
             bankScreen: false,
             depositScreen: false,
             withdrawScreen: false,
+            ledgerScreen: false,
             moneyAmount: 0,
             bankIndex: 0,
             accountBalance: 0,
@@ -31,13 +33,16 @@ class MainMenu extends Component {
         let interestRate = 0;
         let maxLoanAmount = 0;
         player.banks.forEach((town, index) => {
-            if (town.name === player.location) {
-                interestRate = town.interestRate;
+            if (town.name !== "empty") {
                 const interestAccrued = Math.round((town.balance * town.interestRate * (player.day - town.lastVisit)));
                 town.balance += interestAccrued;
-                accountBalance = town.balance;
-                maxLoanAmount = town.maxLoanAmount;
-                bankFound = index;
+                town.lastVisit = player.day;
+                if (town.name === player.location) {
+                    maxLoanAmount = town.maxLoanAmount;
+                    accountBalance = town.balance;
+                    interestRate = town.interestRate;
+                    bankFound = index;
+                }
             }
         });
 
@@ -53,15 +58,17 @@ class MainMenu extends Component {
                 lastVisit: player.day
             });
             bankFound = player.banks.length - 1;
-            this.props.updatePlayer(player);
         }
+
+        this.props.updatePlayer(player);
 
         this.setState({
             bankIndex: bankFound,
             accountBalance: accountBalance,
             interestRate: interestRate,
             maxLoanAmount: maxLoanAmount,
-            lastVisit: player.day
+            lastVisit: player.day,
+            player: player
         });
     }
 
@@ -112,14 +119,14 @@ class MainMenu extends Component {
     }
 
     addInventorySlots = () => {
-        const player = this.props.player;
+        const player = this.state.player;
         player.money -= 10000;
         player.maxInventory += 10;
         this.props.updatePlayer(player);
     }
 
     hireArmedGuard = () => {
-        const player = this.props.player;
+        const player = this.state.player;
         player.money -= 5000;
         player.armedGuards++;
         player.travelCost = 25 * (player.armedGuards + 1);
@@ -127,7 +134,7 @@ class MainMenu extends Component {
     }
 
     fireArmedGuard = () => {
-        const player = this.props.player;
+        const player = this.state.player;
         player.armedGuards--;
         player.travelCost = 25 * (player.armedGuards + 1);
         this.props.updatePlayer(player);
@@ -151,6 +158,12 @@ class MainMenu extends Component {
         });
     }
 
+    toggleLedgerScreen = () => {
+        this.setState({
+            ledgerScreen: !this.state.ledgerScreen
+        });
+    }
+
     moneyInput = (e) => {
         this.setState({
             moneyAmount: parseInt(e.target.value)
@@ -159,7 +172,7 @@ class MainMenu extends Component {
 
     depositMoney = (e) => {
         e.preventDefault();
-        const player = this.props.player;
+        const player = this.state.player;
         const depositAmount = this.state.moneyAmount;
         const currentBank = player.banks[this.state.bankIndex];
         currentBank.balance += depositAmount;
@@ -179,7 +192,8 @@ class MainMenu extends Component {
         this.props.updatePlayer(player);
         this.setState({
             accountBalance: this.state.accountBalance + depositAmount,
-            moneyAmount: 0
+            moneyAmount: 0,
+            player: player
         },
             this.toggleDepositScreen
         );
@@ -188,7 +202,7 @@ class MainMenu extends Component {
 
     withdrawMoney = (e) => {
         e.preventDefault();
-        const player = this.props.player;
+        const player = this.state.player;
         const withdrawAmount = this.state.moneyAmount;
         const currentBank = player.banks[this.state.bankIndex];
         currentBank.balance -= withdrawAmount;
@@ -216,7 +230,8 @@ class MainMenu extends Component {
         this.props.updatePlayer(player);
         this.setState({
             accountBalance: this.state.accountBalance - withdrawAmount,
-            moneyAmount: 0
+            moneyAmount: 0,
+            player: player
         },
             this.toggleWithdrawScreen
         );
@@ -224,7 +239,7 @@ class MainMenu extends Component {
     }
 
     render() {
-        const player = this.props.player;
+        const player = this.state.player;
         let disabled = false;
         const maxDeposit = player.money;
         let maxWithdraw = this.state.accountBalance + this.state.maxLoanAmount;
@@ -236,12 +251,14 @@ class MainMenu extends Component {
         return(
             <div>
                 <div className="popup mainMenu">
+                    <h3>Menu</h3>
                     <div className="choices">
-                    <button onClick={ this.toggleUpgradeScreen }>Manage Caravan</button>
-                    <button onClick={ this.toggleBankScreen }>Local Bank</button>
-                    <button onClick={ this.confirmNewGame }>New Game</button>
-                    <button onClick={ this.confirmQuit }>Quit Game</button>
-                    <button onClick={ this.closeMenu }>Close Menu</button>
+                        <button onClick={ this.toggleUpgradeScreen }>Manage Caravan</button>
+                        <button onClick={ this.toggleBankScreen }>Local Bank</button>
+                        <button onClick={ this.toggleLedgerScreen }>Ledger</button>
+                        <button onClick={ this.confirmNewGame }>New Game</button>
+                        <button onClick={ this.confirmQuit }>Quit Game</button>
+                        <button onClick={ this.closeMenu }>Close Menu</button>
                     </div>
                 </div>
                 { this.state.startNewGame ? 
@@ -249,8 +266,8 @@ class MainMenu extends Component {
                     <h3>Are you sure you want to start a new game?</h3>
                     <p>(All of your current progress will be lost)</p>
                     <div className="choices">
-                    <button onClick={ this.chooseNewCountry }>Yes</button>
-                    <button onClick={ this.confirmNewGame }>No</button>
+                        <button onClick={ this.chooseNewCountry }>Yes</button>
+                        <button onClick={ this.confirmNewGame }>No</button>
                     </div>
                 </div>
                 : null
@@ -327,6 +344,32 @@ class MainMenu extends Component {
                             <button onClick={this.fireArmedGuard} disabled={disabled}>Fire an Armed Guard</button>
                             <button onClick={ this.toggleUpgradeScreen }>Back to Menu</button>
                         </div>
+                    </div>
+                    : null
+                }
+                {
+                    this.state.ledgerScreen ?
+                    <div className="popup ledgerScreen">
+                        <h3>Ledger</h3>
+                        <div className="ledgerItemList">
+                            {
+                                player.banks.map((bank, index)=> {
+                                    if (bank.name !== "empty" && bank.balance !== 0) {
+                                        return(
+                                            <div key={bank.name + index} className="ledgerItem">
+                                                <h4>{bank.name}</h4>
+                                                <div className="darkContainer">
+                                                    <h3>${bank.balance}</h3>
+                                                </div>
+                                            </div>
+                                        );
+                                    } else {
+                                        return false;
+                                    }
+                                })
+                            }
+                        </div>
+                        <button onClick={ this.toggleLedgerScreen }>Close</button>
                     </div>
                     : null
                 }
