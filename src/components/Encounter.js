@@ -151,21 +151,21 @@ class Encounter extends Component {
                             `;
                         } else {
                             const itemToLoot = getRandomIntInRangeExclusive(0, allItems.length);
+                            const lootedItem = allItems[itemToLoot];
                             let maxBasedOnValue = 0;
-                            if (itemToLoot.basePrice >= 1500) {
+                            if (lootedItem.basePrice >= 1500) {
                                 maxBasedOnValue = 5;
-                            } else if (itemToLoot.basePrice >= 500) {
+                            } else if (lootedItem.basePrice >= 500) {
                                 maxBasedOnValue = 10;
-                            } else if (itemToLoot.basePrice >= 75) {
+                            } else if (lootedItem.basePrice >= 75) {
                                 maxBasedOnValue = 20;
-                            } else if (itemToLoot.basePrice >= 25) {
+                            } else if (lootedItem.basePrice >= 25) {
                                 maxBasedOnValue = 35;
                             } else {
                                 maxBasedOnValue = 50;
                             }
                             const maxQty = Math.min(maxBasedOnValue, (player.maxInventory - player.inventorySize));
                             const qtyToLoot = getRandomIntInRange(1, maxQty);
-                            const lootedItem = allItems[itemToLoot];
                             lootedItem.qty = qtyToLoot;
                             lootedItem.price = 0;
                             player.inventorySize += qtyToLoot;
@@ -241,21 +241,21 @@ class Encounter extends Component {
                         let rewardText = '';
                         if (player.inventorySize < player.maxInventory) {
                             const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
+                            const rewardedItem = allItems[itemReward];
                             let maxBasedOnValue = 0;
-                            if (itemReward.basePrice >= 1500) {
+                            if (rewardedItem.basePrice >= 1500) {
                                 maxBasedOnValue = 5;
-                            } else if (itemReward.basePrice >= 500) {
+                            } else if (rewardedItem.basePrice >= 500) {
                                 maxBasedOnValue = 10;
-                            } else if (itemReward.basePrice >= 75) {
+                            } else if (rewardedItem.basePrice >= 75) {
                                 maxBasedOnValue = 20;
-                            } else if (itemReward.basePrice >= 25) {
+                            } else if (rewardedItem.basePrice >= 25) {
                                 maxBasedOnValue = 35;
                             } else {
                                 maxBasedOnValue = 50;
                             }
                             const maxQty = Math.min(maxBasedOnValue, (player.maxInventory - player.inventorySize));
                             const qtyReward = getRandomIntInRange(1, maxQty);
-                            const rewardedItem = allItems[itemReward];
                             rewardedItem.qty = qtyReward;
                             rewardedItem.price = 0;
                             player.inventorySize += qtyReward;
@@ -302,21 +302,21 @@ class Encounter extends Component {
                         let rewardText = `You get $${moneyRewarded}`;
                         if (player.inventorySize < player.maxInventory) {
                             const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
+                            const rewardedItem = allItems[itemReward];
                             let maxBasedOnValue = 0;
-                            if (itemReward.basePrice >= 1500) {
+                            if (rewardedItem.basePrice >= 1500) {
                                 maxBasedOnValue = 5;
-                            } else if (itemReward.basePrice >= 500) {
+                            } else if (rewardedItem.basePrice >= 500) {
                                 maxBasedOnValue = 10;
-                            } else if (itemReward.basePrice >= 75) {
+                            } else if (rewardedItem.basePrice >= 75) {
                                 maxBasedOnValue = 20;
-                            } else if (itemReward.basePrice >= 25) {
+                            } else if (rewardedItem.basePrice >= 25) {
                                 maxBasedOnValue = 35;
                             } else {
                                 maxBasedOnValue = 50;
                             }
                             const maxQty = Math.min(maxBasedOnValue, (player.maxInventory - player.inventorySize));
                             const qtyReward = getRandomIntInRange(1, maxQty);
-                            const rewardedItem = allItems[itemReward];
                             rewardedItem.qty = qtyReward;
                             rewardedItem.price = 0;
                             player.inventorySize += qtyReward;
@@ -372,21 +372,21 @@ class Encounter extends Component {
                         let rewardText = `You get $${moneyRewarded}`;
                         if (player.inventorySize < player.maxInventory) {
                             const itemReward = getRandomIntInRangeExclusive(0, allItems.length);
+                            const rewardedItem = allItems[itemReward];
                             let maxBasedOnValue = 0;
-                            if (itemReward.basePrice >= 1500) {
+                            if (rewardedItem.basePrice >= 1500) {
                                 maxBasedOnValue = 5;
-                            } else if (itemReward.basePrice >= 500) {
+                            } else if (rewardedItem.basePrice >= 500) {
                                 maxBasedOnValue = 10;
-                            } else if (itemReward.basePrice >= 75) {
+                            } else if (rewardedItem.basePrice >= 75) {
                                 maxBasedOnValue = 20;
-                            } else if (itemReward.basePrice >= 25) {
+                            } else if (rewardedItem.basePrice >= 25) {
                                 maxBasedOnValue = 35;
                             } else {
                                 maxBasedOnValue = 50;
                             }
                             const maxQty = Math.min(maxBasedOnValue, (player.maxInventory - player.inventorySize));
                             const qtyReward = getRandomIntInRange(1, maxQty);
-                            const rewardedItem = allItems[itemReward];
                             rewardedItem.qty = qtyReward;
                             rewardedItem.price = 0;
                             player.inventorySize += qtyReward;
