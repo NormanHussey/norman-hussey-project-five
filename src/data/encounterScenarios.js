@@ -187,6 +187,31 @@ const encounterScenarios = [
             }
         ]
     },
+    {
+        type: 'saviour',
+        text: 'An old dog is lying in the middle of the road unwilling to move.',
+        options: [
+            'Offer him a treat',
+            'Drag him off the road',
+            'Throw a stick',
+            'Ride around him'
+        ],
+        outcomes: [
+            {
+                positive: 'In gratitude, the dog leads you to a hole that it dug at the side of the road. Inside there is a small chest.',
+                negative: 'A local lord emerges from the forest and fines you for feeding his dog.'
+            },
+            {
+                positive: 'You hear a voice call out from the forest.  The dog’s owner arrives and offers you some items in gratitude for finding his sweet old mutt.',
+                negative: 'The dog snatches your purse and runs away deep into the forest.'
+            },
+            {
+                positive: "The dog gleefully runs after your stick revealing a purse that he was guarding beneath him.",
+                negative: "Your aim is terrible and you accidentally hit a very mean-looking passerby. You offer him some property as an apology."
+            },
+            "You carefully manoeuver your caravan around the lazy mutt and continue on your way."
+        ]
+    },
 
 
 ];
